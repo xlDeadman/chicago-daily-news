@@ -1,0 +1,111 @@
+{% extends 'newspaper/base.html' %}
+
+{% block title %}Registros Bélicos — Chicago Daily News{% endblock %}
+
+{% block extra_css %}
+.registros-header {
+  text-align: center;
+  border-bottom: 2px solid #1a1008;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+.registros-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: #0d0700;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1rem; }
+th { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 2px solid #1a1008; padding: 8px 10px; text-align: left; color: #0d0700; }
+td { padding: 12px 10px; border-bottom: 1px solid #c8b89a; color: #2a1a0a; }
+tr:hover td { background: #ede8dc; }
+.ganador { color: #8b1a1a; font-weight: bold; font-family: 'Playfair Display', serif; }
+.pettadas { font-family: 'UnifrakturMaguntia', cursive; font-size: 20px; color: #8b1a1a; }
+.vacio { text-align: center; padding: 2rem; color: #888; font-style: italic; }
+.paginacion {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #c8b89a;
+}
+.paginacion a {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  border: 1px solid #c8b89a;
+  padding: 4px 12px;
+  text-decoration: none;
+  color: #1a1008;
+}
+.paginacion a.activo {
+  background: #8b1a1a;
+  color: #f5f0e8;
+  border-color: #8b1a1a;
+}
+.paginacion a:hover { background: #ede8dc; }
+{% endblock %}
+
+{% block contenido %}
+
+<div class="registros-header">
+  <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Archivo Histórico</p>
+  <h1>Registros Bélicos</h1>
+</div>
+
+<!-- RANKING -->
+<p style="font-family:'Playfair Display',serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid #555; padding-bottom:4px; margin-bottom:12px; color:#0d0700;">Ranking de Familias</p>
+{% if ranking %}
+<table>
+  <thead>
+    <tr>
+      <th>Familia</th>
+      <th>Pettadas</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in ranking %}
+    <tr>
+      <td><strong>{{ r.familia }}</strong></td>
+      <td class="pettadas">{{ r.pettadas }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="vacio">No hay familias registradas aún.</p>
+{% endif %}
+
+<!-- REGISTROS BELICOS -->
+<p style="font-family:'Playfair Display',serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; border-bottom:1px solid #555; padding-bottom:4px; margin-bottom:12px; margin-top:1.5rem; color:#0d0700;">Historial de Batallas</p>
+{% if registros %}
+<table>
+  <thead>
+    <tr>
+      <th>Familias</th>
+      <th>Ganador</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for registro in registros %}
+    <tr>
+      <td>{{ registro.familia1 }} <span style="font-weight:bold; margin:0 8px; color:#1a1008;">VS</span> {{ registro.familia2 }}</td>
+      <td class="ganador">{{ registro.ganador }}</td>
+      <td style="font-size:15px; font-weight:bold;">{{ registro.fecha|date:"d/m/Y" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% if registros.has_other_pages %}
+<div class="paginacion">
+  {% if registros.has_previous %}<a href="?pagina={{ registros.previous_page_number }}">← Anterior</a>{% endif %}
+  {% for i in registros.paginator.page_range %}<a href="?pagina={{ i }}" {% if registros.number == i %}class="activo"{% endif %}>{{ i }}</a>{% endfor %}
+  {% if registros.has_next %}<a href="?pagina={{ registros.next_page_number }}">Siguiente →</a>{% endif %}
+</div>
+{% endif %}
+{% else %}
+<p class="vacio">No hay registros bélicos aún.</p>
+{% endif %}
+
+{% endblock %}

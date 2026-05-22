@@ -1,0 +1,38 @@
+{% extends 'newspaper/base.html' %}
+
+{% block title %}Nueva Familia — Chicago Daily News{% endblock %}
+
+{% block extra_css %}
+h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: #0d0700; border-bottom: 2px solid #1a1008; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.campo { margin-bottom: 1.2rem; }
+label { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #555; display: block; margin-bottom: 4px; }
+input[type="text"] { width: 100%; padding: 8px 10px; border: 1px solid #c8b89a; background: #ede8dc; font-family: 'IM Fell English', Georgia, serif; font-size: 14px; color: #1a1008; outline: none; }
+.btn-guardar { background: #8b1a1a; color: #f5f0e8; padding: 10px 24px; font-family: 'Playfair Display', serif; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: pointer; margin-right: 10px; }
+.btn-guardar:hover { background: #6d1414; }
+.btn-cancelar { color: #8b1a1a; font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; text-decoration: none; letter-spacing: 0.1em; }
+.checkbox-row { display: flex; align-items: center; gap: 8px; }
+.checkbox-row input { width: auto; }
+{% endblock %}
+
+{% block contenido %}
+<h1>Nueva Familia</h1>
+<form method="POST">
+  {% csrf_token %}
+  <div class="campo">
+    <label>Nombre de la Familia</label>
+    <input type="text" name="nombre" placeholder="Nombre de la familia">
+  </div>
+  <div class="campo">
+    <label>Don / Donna</label>
+    <input type="text" name="don" placeholder="Nombre del Don o Donna">
+  </div>
+  <div class="campo">
+    <div class="checkbox-row">
+      <input type="checkbox" name="estado" id="estado" checked>
+      <label for="estado" style="margin-bottom:0;">Familia Activa</label>
+    </div>
+  </div>
+  <button type="submit" class="btn-guardar">Guardar</button>
+  <a href="/panel/" class="btn-cancelar">Cancelar</a>
+</form>
+{% endblock %}

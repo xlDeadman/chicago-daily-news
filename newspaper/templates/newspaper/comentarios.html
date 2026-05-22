@@ -1,0 +1,53 @@
+{% extends 'newspaper/base.html' %}
+
+{% block title %}Comentarios — Chicago Daily News{% endblock %}
+
+{% block extra_css %}
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #1a1008; padding-bottom: 1rem; }
+.top-bar h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: #0d0700; }
+.volver { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #8b1a1a; text-decoration: none; }
+.volver:hover { text-decoration: underline; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 2px solid #1a1008; padding: 8px 10px; text-align: left; color: #0d0700; }
+td { padding: 10px; border-bottom: 1px solid #c8b89a; vertical-align: top; color: #2a1a0a; font-size: 13px; }
+tr:hover td { background: #ede8dc; }
+.btn-eliminar { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; color: #8b1a1a; }
+.vacio { text-align: center; padding: 3rem; color: #888; font-style: italic; }
+{% endblock %}
+
+{% block contenido %}
+<div class="top-bar">
+  <h1>Comentarios</h1>
+  <a href="/panel/" class="volver">← Volver al Panel</a>
+</div>
+
+{% if comentarios %}
+<table>
+  <thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Noticia</th>
+      <th>Comentario</th>
+      <th>Fecha</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for comentario in comentarios %}
+    <tr>
+      <td><strong>{{ comentario.autor.username }}</strong></td>
+      <td>{{ comentario.noticia.titulo|truncatewords:6 }}</td>
+      <td>{{ comentario.contenido|truncatewords:15 }}</td>
+      <td>{{ comentario.fecha|date:"d/m/Y H:i" }}</td>
+      <td>
+        <a href="/panel/comentarios/eliminar/{{ comentario.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar este comentario?')">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="vacio">No hay comentarios aún.</p>
+{% endif %}
+
+{% endblock %}

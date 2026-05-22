@@ -1,0 +1,75 @@
+{% extends 'newspaper/base.html' %}
+
+{% block title %}Usuarios — Chicago Daily News{% endblock %}
+
+{% block extra_css %}
+.seccion-titulo { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid #555; padding-bottom: 4px; margin-bottom: 12px; color: #0d0700; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #1a1008; padding-bottom: 1rem; }
+.top-bar h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: #0d0700; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 2px solid #1a1008; padding: 8px 10px; text-align: left; color: #0d0700; }
+td { padding: 10px; border-bottom: 1px solid #c8b89a; vertical-align: middle; color: #2a1a0a; }
+tr:hover td { background: #ede8dc; }
+.badge { font-family: 'Playfair Display', serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border: 1px solid; }
+.badge-activo { color: #1a4a1a; border-color: #1a4a1a; }
+.badge-inactivo { color: #8b1a1a; border-color: #8b1a1a; }
+.badge-staff { color: #1a1a8b; border-color: #1a1a8b; }
+.acciones a { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; margin-right: 8px; }
+.btn-eliminar { color: #8b1a1a; }
+.btn-deshabilitar { color: #888; }
+.btn-permisos { color: #1a1a8b; }
+.volver { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #8b1a1a; text-decoration: none; }
+.volver:hover { text-decoration: underline; }
+{% endblock %}
+
+{% block contenido %}
+
+<div class="top-bar">
+  <h1>Usuarios Registrados</h1>
+  <a href="/panel/" class="volver">← Volver al Panel</a>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nickname</th>
+      <th>Registro</th>
+      <th>Estado</th>
+      <th>Permisos</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for usuario in usuarios %}
+    <tr>
+      <td><strong>{{ usuario.username }}</strong></td>
+      <td>{{ usuario.date_joined|date:"d/m/Y" }}</td>
+      <td>
+        {% if usuario.is_active %}
+        <span class="badge badge-activo">Activo</span>
+        {% else %}
+        <span class="badge badge-inactivo">Inactivo</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if usuario.is_staff %}
+        <span class="badge badge-staff">Panel</span>
+        {% else %}
+        <span class="badge">Lector</span>
+        {% endif %}
+      </td>
+      <td class="acciones">
+        <a href="/panel/usuarios/deshabilitar/{{ usuario.id }}/" class="btn-deshabilitar">
+          {% if usuario.is_active %}Deshabilitar{% else %}Habilitar{% endif %}
+        </a>
+        <a href="/panel/usuarios/permisos/{{ usuario.id }}/" class="btn-permisos">
+          {% if usuario.is_staff %}Quitar Panel{% else %}Dar Panel{% endif %}
+        </a>
+        <a href="/panel/usuarios/eliminar/{{ usuario.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar usuario {{ usuario.username }}?')">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

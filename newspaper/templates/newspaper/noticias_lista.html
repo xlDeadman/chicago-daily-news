@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noticias — Chicago Daily News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #d9d0c0; display: flex; justify-content: center; padding: 2rem; min-height: 100vh; }
+  .panel { background: #f5f0e8; color: #1a1008; font-family: 'IM Fell English', Georgia, serif; padding: 0 0 2rem; border: 1px solid #c8b89a; max-width: 900px; width: 100%; box-shadow: 4px 4px 20px rgba(0,0,0,0.25); }
+  .cabecera { border-bottom: 4px double #1a1008; padding: 1.25rem 2rem 0.75rem; text-align: center; background: #ede8dc; }
+  .nombre-periodico { font-family: 'UnifrakturMaguntia', cursive; font-size: 60px; line-height: 1; color: #0d0700; }
+  .linea-roja { height: 5px; background: #8b1a1a; }
+  .nav-panel { display: flex; justify-content: space-between; align-items: center; padding: 8px 2rem; background: #ede8dc; border-bottom: 1px solid #c8b89a; font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .nav-panel a { color: #8b1a1a; text-decoration: none; }
+  .nav-panel a:hover { text-decoration: underline; }
+  .cuerpo { padding: 2rem; }
+  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #1a1008; padding-bottom: 1rem; }
+  .top-bar h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: #0d0700; }
+  .btn-nuevo { background: #8b1a1a; color: #f5f0e8; padding: 8px 16px; font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; }
+  .btn-nuevo:hover { background: #6d1414; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 2px solid #1a1008; padding: 8px 10px; text-align: left; color: #0d0700; }
+  td { padding: 10px; border-bottom: 1px solid #c8b89a; vertical-align: top; color: #2a1a0a; }
+  tr:hover td { background: #ede8dc; }
+  .badge { font-family: 'Playfair Display', serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border: 1px solid; }
+  .badge-principal { color: #8b1a1a; border-color: #8b1a1a; }
+  .badge-secundaria { color: #555; border-color: #555; }
+  .badge-mixta { color: #1a4a1a; border-color: #1a4a1a; }
+  .acciones a { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; margin-right: 10px; }
+  .editar { color: #1a1a8b; }
+  .eliminar { color: #8b1a1a; }
+  .vacio { text-align: center; padding: 3rem; color: #888; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="panel">
+  <div class="cabecera">
+    <div style="border-top: 1px solid #999; margin-bottom: 0.4rem;"></div>
+    <div class="nombre-periodico">Chicago Daily News</div>
+    <div style="font-family:Georgia,serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#666; border-top:1px solid #999; border-bottom:1px solid #999; padding:3px 0; margin-top:0.3rem;">Panel de Redacción</div>
+  </div>
+  <div class="linea-roja"></div>
+  <div class="nav-panel">
+    <span><a href="/panel/">← Panel</a> · Noticias</span>
+    <a href="/logout/">Cerrar sesión</a>
+  </div>
+  <div class="cuerpo">
+    <div class="top-bar">
+      <h1>Todas las Noticias</h1>
+      <a href="/panel/noticias/nueva/" class="btn-nuevo">+ Nueva Noticia</a>
+    </div>
+    {% if noticias %}
+    <table>
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>Fecha</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for noticia in noticias %}
+    <tr>
+      <td>{{ noticia.titulo }}</td>
+      <td>{{ noticia.autor }}</td>
+      <td>{{ noticia.fecha }}</td>
+      <td class="acciones">
+        <a href="/panel/noticias/editar/{{ noticia.id }}/" class="editar">Editar</a>
+        <a href="/panel/noticias/eliminar/{{ noticia.id }}/" class="eliminar" onclick="return confirm('¿Eliminar esta noticia?')">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    {% else %}
+    <p class="vacio">No hay noticias aún. ¡Crea la primera!</p>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

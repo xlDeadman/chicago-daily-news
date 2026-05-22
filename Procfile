@@ -1,0 +1,1 @@
+web: gunicorn chicago_daily_news.wsgi --log-file -

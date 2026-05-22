@@ -1,0 +1,140 @@
+{% extends 'newspaper/base.html' %}
+
+{% block title %}Noticias — Chicago Daily News{% endblock %}
+
+{% block extra_css %}
+.noticias-header {
+  text-align: center;
+  border-bottom: 2px solid #1a1008;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+.noticias-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: #0d0700;
+}
+.noticias-grid {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+.noticia-card {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid #c8b89a;
+}
+.noticia-card:last-child { border-bottom: none; }
+.noticia-card-left {
+  border-right: 1px solid #c8b89a;
+  padding-right: 14px;
+}
+.noticia-card-right {
+  padding-left: 14px;
+}
+.etiqueta {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8b1a1a;
+  margin-bottom: 4px;
+}
+.noticia-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 900;
+  color: #0d0700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.meta {
+  font-size: 11px;
+  color: #888;
+  font-family: Georgia, serif;
+  margin-bottom: 8px;
+}
+.noticia-card-right p {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #2a1a0a;
+  text-align: justify;
+}
+.leer {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  color: #8b1a1a;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 6px;
+}
+.paginacion {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #c8b89a;
+}
+.paginacion a {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  border: 1px solid #c8b89a;
+  padding: 4px 12px;
+  text-decoration: none;
+  color: #1a1008;
+}
+.paginacion a.activo {
+  background: #8b1a1a;
+  color: #f5f0e8;
+  border-color: #8b1a1a;
+}
+.paginacion a:hover { background: #ede8dc; }
+{% endblock %}
+
+{% block contenido %}
+
+<div class="noticias-header">
+  <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Archivo</p>
+  <h1>Todas las Noticias</h1>
+</div>
+
+{% if noticias %}
+<div class="noticias-grid">
+  {% for noticia in noticias %}
+  <div class="noticia-card">
+    <div class="noticia-card-left">
+      <div class="etiqueta">Noticia</div>
+      <h2>{{ noticia.titulo }}</h2>
+      <div class="meta">Por {{ noticia.autor }} · {{ noticia.fecha }}</div>
+      <a href="/noticia/{{ noticia.id }}/" class="leer">Leer más →</a>
+    </div>
+    <div class="noticia-card-right">
+      <p>{{ noticia.contenido|striptags|truncatewords:40 }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if noticias.has_other_pages %}
+<div class="paginacion">
+  {% if noticias.has_previous %}
+  <a href="?pagina={{ noticias.previous_page_number }}">← Anterior</a>
+  {% endif %}
+  {% for i in noticias.paginator.page_range %}
+  <a href="?pagina={{ i }}" {% if noticias.number == i %}class="activo"{% endif %}>{{ i }}</a>
+  {% endfor %}
+  {% if noticias.has_next %}
+  <a href="?pagina={{ noticias.next_page_number }}">Siguiente →</a>
+  {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p style="text-align:center; font-style:italic; color:#888; padding:3rem;">No hay noticias publicadas aún.</p>
+{% endif %}
+
+{% endblock %}

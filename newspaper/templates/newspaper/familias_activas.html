@@ -1,0 +1,57 @@
+{% extends 'newspaper/base.html' %}
+
+{% block title %}Familias Activas — Chicago Daily News{% endblock %}
+
+{% block extra_css %}
+.familias-header {
+  text-align: center;
+  border-bottom: 2px solid #1a1008;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+.familias-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: #0d0700;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 2px solid #1a1008; padding: 8px 10px; text-align: left; color: #0d0700; }
+td { padding: 12px 10px; border-bottom: 1px solid #c8b89a; color: #2a1a0a; }
+tr:hover td { background: #ede8dc; }
+.activa { color: #1a4a1a; font-weight: bold; font-family: 'Playfair Display', serif; }
+.inactiva { color: #8b1a1a; font-weight: bold; font-family: 'Playfair Display', serif; }
+.vacio { text-align: center; padding: 2rem; color: #888; font-style: italic; }
+{% endblock %}
+
+{% block contenido %}
+
+<div class="familias-header">
+  <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Habbo City</p>
+  <h1>Familias Activas</h1>
+</div>
+
+{% if familias %}
+<table>
+  <thead>
+    <tr>
+      <th>Familia</th>
+      <th>Don / Donna</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for familia in familias %}
+    <tr>
+      <td><strong>{{ familia.nombre }}</strong></td>
+      <td>{{ familia.don }}</td>
+      <td>{% if familia.estado %}<span class="activa">● Activa</span>{% else %}<span class="inactiva">● Inactiva</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="vacio">No hay familias registradas aún.</p>
+{% endif %}
+
+{% endblock %}

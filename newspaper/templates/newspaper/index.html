@@ -1,0 +1,281 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicago Daily News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #d9d0c0; display: flex; justify-content: center; padding: 2rem; min-height: 100vh; }
+.periodico { background: #f5f0e8; color: #1a1008; font-family: 'IM Fell English', Georgia, serif; padding: 0 0 2rem; border: 1px solid #c8b89a; max-width: 900px; width: 100%; box-shadow: 4px 4px 20px rgba(0,0,0,0.25); }
+.cabecera { border-bottom: 4px double #1a1008; padding: 1.25rem 2rem 0.75rem; text-align: center; background: #ede8dc; }
+.cabecera-top { display: flex; justify-content: space-between; align-items: flex-end; font-size: 11px; color: #555; margin-bottom: 0.4rem; font-family: Georgia, serif; letter-spacing: 0.05em; }
+.nombre-periodico { font-family: 'UnifrakturMaguntia', cursive; font-size: 80px; line-height: 1; color: #0d0700; letter-spacing: -1px; }
+.subtitulo-cabecera { font-family: 'Playfair Display', serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #444; margin: 0.2rem 0 0.3rem; padding: 3px 0; }
+.edition-line { font-family: Georgia, serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #666; border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 3px 0; margin-bottom: 0.5rem; }
+.nav-bar { display: flex; justify-content: center; gap: 0; font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1008; padding: 6px 0 4px; border-top: 1px solid #aaa; }
+.nav-bar span { padding: 0 14px; cursor: pointer; border-right: 1px solid #aaa; }
+.nav-bar span:first-child { border-left: 1px solid #aaa; }
+.nav-bar span:hover { text-decoration: underline; }
+.nav-bar a { text-decoration: none; color: #1a1008; }
+.nav-bar #btn-usuario:hover { text-decoration: none; }
+.linea-roja { height: 5px; background: #8b1a1a; }
+.cuerpo { padding: 1rem 2rem; }
+.recuadro-escandalo { background: #8b1a1a; color: #f5f0e8; padding: 10px 16px; text-align: center; margin: 1rem 0 0; }
+.recuadro-escandalo p { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; line-height: 1.5; }
+.recuadro-escandalo strong { font-size: 15px; display: block; font-style: normal; letter-spacing: 0.1em; margin-bottom: 4px; }
+.pie-pagina { border-top: 3px double #1a1008; margin: 1rem 2rem 0; padding-top: 5px; display: flex; justify-content: space-between; font-size: 11px; color: #666; font-family: Georgia, serif; }
+</style>
+</head>
+<body>
+<div class="periodico">
+
+  <!-- CABECERA -->
+  <div class="cabecera">
+    <div class="cabecera-top">
+      <span>Chicago Daily News · Est. 2025</span>
+    <span>@ChicagoDNews · Habbo City Edition</span>
+    <span>«Todo el drama que cabe en un pixel»</span>
+    </div>
+    <div style="border-top:1px solid #999; margin-bottom:0.4rem;"></div>
+    <div class="nombre-periodico">Chicago Daily News</div>
+    <div class="subtitulo-cabecera">"Todo el drama que cabe en un pixel"</div>
+    <div class="edition-line">Habbo City Edition — El diario de las familias del mundillo</div>
+    <div class="nav-bar">
+      <span><a href="/">INICIO</a></span>
+      <span><a href="/noticias/">NOTICIAS</a></span>
+      <span><a href="/familias-activas/">FAMILIAS ACTIVAS</a></span>
+      <span><a href="/registros-belicos/">REGISTROS BÉLICOS</a></span>
+      {% if user.is_authenticated %}
+      <span style="position:relative;" id="btn-usuario">
+        {{ user.username }} ▾
+        <div id="submenu-usuario" style="display:none; position:absolute; top:100%; right:0; background:#f5f0e8; border:1px solid #c8b89a; min-width:160px; z-index:999; box-shadow:2px 2px 8px rgba(0,0,0,0.2);">
+          {% if user.is_staff %}
+          <a onclick="document.getElementById('modal-modo').style.display='flex'" style="display:block; padding:8px 14px; font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#1a1008; text-decoration:none; border-bottom:1px solid #c8b89a; cursor:pointer;">Panel de Control</a>
+          {% endif %}
+          <a href="/logout/" style="display:block; padding:8px 14px; font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#8b1a1a; text-decoration:none;">Cerrar Sesión</a>
+        </div>
+      </span>
+      {% else %}
+      <span id="btn-login">INICIAR SESIÓN</span>
+      {% endif %}
+    </div>
+  </div>
+  <div class="linea-roja"></div>
+
+  <!-- CUERPO -->
+  <div class="cuerpo">
+
+    <!-- NOTICIA PRINCIPAL -->
+    {% if principal %}
+    <div style="text-align:center; border-bottom:2px solid #1a1008; padding-bottom:1rem; margin-bottom:1rem;">
+      <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Noticia Principal</p>
+      <h1 style="font-family:'Playfair Display',serif; font-size:44px; font-weight:900; line-height:1.05; color:#0d0700; margin-bottom:0.3rem;">{{ principal.titulo }}</h1>
+      <p style="font-size:12px; color:#666; font-family:Georgia,serif; margin:0.3rem 0 0.8rem;">Por {{ principal.autor }} · {{ principal.fecha }}</p>
+      <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ principal.contenido|striptags|truncatewords:50 }}</p>
+      <a href="/noticia/{{ principal.id }}" style="display:inline-block; margin-top:1rem; padding:8px 20px; background:#1a1008; color:#f5f0e8; font-family:'Playfair Display',serif; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none;">Leer Noticia Completa →</a>
+    </div>
+    {% endif %}
+
+    <!-- 2 COLUMNAS -->
+    {% if columnas %}
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; margin-bottom:1rem; border-bottom:1px solid #c8b89a; padding-bottom:1rem;">
+      {% for noticia in columnas %}
+      <div style="padding:0 14px; {% if forloop.first %}border-right:1px solid #c8b89a;{% endif %}">
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
+        <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
+        <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
+        <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ noticia.contenido|striptags|truncatewords:35 }}</p>
+        <a href="/noticia/{{ noticia.id }}/" style="font-family:'Playfair Display',serif; font-size:11px; color:#8b1a1a; text-decoration:none; display:inline-block; margin-top:8px;">Leer más →</a>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- MIXTAS -->
+    {% if mixtas %}
+    {% for noticia in mixtas %}
+    <div style="display:grid; grid-template-columns:1fr 2fr; gap:14px; padding:10px 0;">
+      <div style="padding-top:8px;">
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
+        <h3 style="font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:#0d0700; line-height:1.2;">{{ noticia.titulo }}</h3>
+        <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-top:4px;">{{ noticia.autor }} · {{ noticia.fecha }}</p>
+        <a href="/noticia/{{ noticia.id }}/" style="font-family:'Playfair Display',serif; font-size:11px; color:#8b1a1a; text-decoration:none; display:inline-block; margin-top:6px;">Leer más →</a>
+      </div>
+      <div style="padding-top:8px;">
+        <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ noticia.contenido|striptags|truncatewords:40 }}</p>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- TENDENCIA -->
+    {% if tendencia %}
+    <div class="recuadro-escandalo">
+      <strong>¡ TENDENCIA !</strong>
+      <p>{{ tendencia.titulo }} · {{ tendencia.contenido|striptags|truncatewords:20 }} · <a href="/noticia/{{ tendencia.id }}/" style="color:#f5f0e8; text-decoration:underline;">Leer más →</a></p>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- PIE -->
+  <div class="pie-pagina">
+    <span>Chicago Daily News · Est. 2025</span>
+    <span>@ChicagoDNews · Habbo City Edition</span>
+    <span>«Todo el drama que cabe en un pixel»</span>
+  </div>
+
+</div>
+
+<!-- MODAL LOGIN -->
+<div id="modal-login" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999; justify-content:center; align-items:center;">
+  <div style="background:#f5f0e8; border:1px solid #c8b89a; max-width:380px; width:90%; box-shadow:4px 4px 20px rgba(0,0,0,0.4);">
+    <div style="height:5px; background:#8b1a1a;"></div>
+    <div style="padding:2rem; text-align:center;">
+      <p style="font-family:Georgia,serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#666; margin-bottom:0.3rem;">Chicago Daily News</p>
+      <h2 style="font-family:'UnifrakturMaguntia',cursive; font-size:32px; color:#0d0700; margin-bottom:0.2rem;">Acceso Redacción</h2>
+      <div style="border-top:1px solid #999; border-bottom:1px solid #999; padding:3px 0; margin-bottom:1.5rem;">
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#444;">Identifíquese para continuar</p>
+      </div>
+      <form method="POST" action="/login/">
+        {% csrf_token %}
+        <div style="margin-bottom:1rem; text-align:left;">
+          <label style="font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#555; display:block; margin-bottom:4px;">Usuario</label>
+          <input type="text" name="usuario_habbo" style="width:100%; padding:8px 10px; border:1px solid #c8b89a; background:#ede8dc; font-family:'IM Fell English',Georgia,serif; font-size:14px; color:#1a1008; outline:none;">
+        </div>
+        <div style="margin-bottom:1.5rem; text-align:left;">
+          <label style="font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#555; display:block; margin-bottom:4px;">Contraseña</label>
+          <input type="password" name="contrasena" style="width:100%; padding:8px 10px; border:1px solid #c8b89a; background:#ede8dc; font-family:'IM Fell English',Georgia,serif; font-size:14px; color:#1a1008; outline:none;">
+        </div>
+        <button type="submit" style="width:100%; padding:10px; background:#8b1a1a; color:#f5f0e8; font-family:'Playfair Display',serif; font-size:13px; letter-spacing:0.15em; text-transform:uppercase; border:none; cursor:pointer;">Entrar a la Redacción →</button>
+        <p style="margin-top:1rem; font-family:'Playfair Display',serif; font-size:11px; color:#666;">
+          ¿No tienes cuenta?
+          <span id="ir-registro" style="color:#8b1a1a; cursor:pointer; text-decoration:underline;">Regístrate aquí</span>
+        </p>
+      </form>
+      <p id="cerrar-modal" style="margin-top:1rem; font-size:11px; color:#888; cursor:pointer; font-family:Georgia,serif;">✕ Cerrar</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REGISTRO -->
+<div id="modal-registro" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999; justify-content:center; align-items:center;">
+  <div style="background:#f5f0e8; border:1px solid #c8b89a; max-width:380px; width:90%; box-shadow:4px 4px 20px rgba(0,0,0,0.4);">
+    <div style="height:5px; background:#8b1a1a;"></div>
+    <div style="padding:2rem; text-align:center;">
+      <p style="font-family:Georgia,serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#666; margin-bottom:0.3rem;">Chicago Daily News</p>
+      <h2 style="font-family:'UnifrakturMaguntia',cursive; font-size:32px; color:#0d0700; margin-bottom:0.2rem;">Nueva Cuenta</h2>
+      <div style="border-top:1px solid #999; border-bottom:1px solid #999; padding:3px 0; margin-bottom:1.5rem;">
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#444;">Bienvenido al mundillo</p>
+      </div>
+      <form method="POST" action="/registro/">
+        {% csrf_token %}
+        <div style="margin-bottom:1rem; text-align:left;">
+          <label style="font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#555; display:block; margin-bottom:4px;">Nickname</label>
+          <input type="text" name="usuario_habbo" style="width:100%; padding:8px 10px; border:1px solid #c8b89a; background:#ede8dc; font-family:'IM Fell English',Georgia,serif; font-size:14px; color:#1a1008; outline:none;">
+        </div>
+        <div style="margin-bottom:1.5rem; text-align:left;">
+          <label style="font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#555; display:block; margin-bottom:4px;">Contraseña</label>
+          <input type="password" name="contrasena" style="width:100%; padding:8px 10px; border:1px solid #c8b89a; background:#ede8dc; font-family:'IM Fell English',Georgia,serif; font-size:14px; color:#1a1008; outline:none;">
+        </div>
+        <button type="submit" style="width:100%; padding:10px; background:#8b1a1a; color:#f5f0e8; font-family:'Playfair Display',serif; font-size:13px; letter-spacing:0.15em; text-transform:uppercase; border:none; cursor:pointer;">Unirse a la Redacción →</button>
+      </form>
+      <p style="margin-top:1rem; font-family:'Playfair Display',serif; font-size:11px; color:#666;">
+        ¿Ya tienes cuenta?
+        <span id="ir-login" style="color:#8b1a1a; cursor:pointer; text-decoration:underline;">Inicia sesión aquí</span>
+      </p>
+      <p id="cerrar-registro" style="margin-top:0.5rem; font-size:11px; color:#888; cursor:pointer; font-family:Georgia,serif;">✕ Cerrar</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MODO PUBLICACION -->
+<div id="modal-modo" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center;">
+  <div style="background:#f5f0e8; border:1px solid #c8b89a; max-width:380px; width:90%; box-shadow:4px 4px 20px rgba(0,0,0,0.4);">
+    <div style="height:5px; background:#8b1a1a;"></div>
+    <div style="padding:2rem; text-align:center;">
+      <p style="font-family:Georgia,serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#666; margin-bottom:0.3rem;">Chicago Daily News</p>
+      <h2 style="font-family:'UnifrakturMaguntia',cursive; font-size:30px; color:#0d0700; margin-bottom:0.2rem;">Acceso al Panel</h2>
+      <div style="border-top:1px solid #999; border-bottom:1px solid #999; padding:3px 0; margin-bottom:1.5rem;">
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#444;">¿Cómo desea publicar?</p>
+      </div>
+      <form method="POST" action="/set-modo/">
+        {% csrf_token %}
+        <div style="display:flex; gap:10px; margin-bottom:1.5rem;">
+          <label style="flex:1; border:1px solid #c8b89a; padding:12px; text-align:center; cursor:pointer; font-family:'Playfair Display',serif; font-size:12px; color:#1a1008; background:#ede8dc;">
+            <input type="radio" name="modo_publicacion" value="personal" checked style="margin-right:4px;">
+            {{ user.username }}
+          </label>
+          <label style="flex:1; border:1px solid #c8b89a; padding:12px; text-align:center; cursor:pointer; font-family:'Playfair Display',serif; font-size:12px; color:#1a1008; background:#ede8dc;">
+            <input type="radio" name="modo_publicacion" value="oficial" style="margin-right:4px;">
+            Chicago Daily News
+          </label>
+        </div>
+        <button type="submit" style="width:100%; padding:10px; background:#8b1a1a; color:#f5f0e8; font-family:'Playfair Display',serif; font-size:13px; letter-spacing:0.15em; text-transform:uppercase; border:none; cursor:pointer;">Entrar al Panel →</button>
+      </form>
+      <p onclick="document.getElementById('modal-modo').style.display='none'" style="margin-top:1rem; font-size:11px; color:#888; cursor:pointer; font-family:Georgia,serif;">✕ Cerrar</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TWITTER -->
+<div id="modal-twitter" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1001; justify-content:center; align-items:center;">
+  <div style="background:#f5f0e8; border:1px solid #c8b89a; max-width:340px; width:90%; box-shadow:4px 4px 20px rgba(0,0,0,0.4); text-align:center;">
+    <div style="height:5px; background:#8b1a1a;"></div>
+    <div style="padding:2rem;">
+      <p style="font-family:Georgia,serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#666; margin-bottom:0.5rem;">Chicago Daily News</p>
+      <h2 style="font-family:'UnifrakturMaguntia',cursive; font-size:28px; color:#0d0700; margin-bottom:1rem;">¡Síguenos!</h2>
+      <p style="font-family:'Playfair Display',serif; font-size:13px; color:#2a1a0a; margin-bottom:1.5rem; line-height:1.6;">Mantente al tanto de todas las noticias del mundillo en nuestra cuenta de X</p>
+      <a href="https://x.com/ChicagoDNews" target="_blank" style="display:block; padding:10px; background:#1a1008; color:#f5f0e8; font-family:'Playfair Display',serif; font-size:12px; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; margin-bottom:10px;">Seguir @ChicagoDNews →</a>
+      <p id="cerrar-twitter" style="font-size:11px; color:#888; cursor:pointer; font-family:Georgia,serif;">✕ Cerrar</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const btnLogin = document.getElementById('btn-login');
+  const modal = document.getElementById('modal-login');
+  const cerrar = document.getElementById('cerrar-modal');
+  const irRegistro = document.getElementById('ir-registro');
+  const modalRegistro = document.getElementById('modal-registro');
+  const cerrarRegistro = document.getElementById('cerrar-registro');
+  const irLogin = document.getElementById('ir-login');
+
+  if (btnLogin) {
+    btnLogin.style.cursor = 'pointer';
+    btnLogin.addEventListener('click', () => { modal.style.display = 'flex'; });
+    cerrar.addEventListener('click', () => { modal.style.display = 'none'; });
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+    irRegistro.addEventListener('click', () => { modal.style.display = 'none'; modalRegistro.style.display = 'flex'; });
+    cerrarRegistro.addEventListener('click', () => { modalRegistro.style.display = 'none'; });
+    modalRegistro.addEventListener('click', (e) => { if (e.target === modalRegistro) modalRegistro.style.display = 'none'; });
+    irLogin.addEventListener('click', () => { modalRegistro.style.display = 'none'; modal.style.display = 'flex'; });
+  }
+
+  const btnUsuario = document.getElementById('btn-usuario');
+  const submenu = document.getElementById('submenu-usuario');
+
+  if (btnUsuario) {
+    btnUsuario.style.cursor = 'pointer';
+    btnUsuario.addEventListener('click', (e) => {
+      e.stopPropagation();
+      submenu.style.display = submenu.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', () => { submenu.style.display = 'none'; });
+  }
+
+  if (!localStorage.getItem('twitter_modal_visto')) {
+    document.getElementById('modal-twitter').style.display = 'flex';
+  }
+  document.getElementById('cerrar-twitter').addEventListener('click', function() {
+    localStorage.setItem('twitter_modal_visto', '1');
+    document.getElementById('modal-twitter').style.display = 'none';
+  });
+</script>
+
+</body>
+</html>

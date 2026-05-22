@@ -1,0 +1,371 @@
+{% extends 'newspaper/base.html' %}
+
+{% block title %}Panel — Chicago Daily News{% endblock %}
+
+{% block extra_css %}
+.panel-header {
+  border-bottom: 2px solid #1a1008;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.panel-header-left p {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8b1a1a;
+  margin-bottom: 0.3rem;
+}
+.panel-header-left h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: #0d0700;
+}
+.panel-header-right {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  color: #888;
+  text-align: right;
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  border: 1px solid #c8b89a;
+  padding: 14px 16px;
+  background: #ede8dc;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.stat-card .stat-numero {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 36px;
+  color: #8b1a1a;
+  line-height: 1;
+}
+.stat-card .stat-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #666;
+}
+.panel-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+}
+.panel-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.panel-btn {
+  display: block;
+  padding: 10px 14px;
+  border: 1px solid #c8b89a;
+  background: #ede8dc;
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1a1008;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+.panel-btn:hover { background: #d4c9b0; }
+.panel-btn.active { background: #1a1008; color: #f5f0e8; border-color: #1a1008; }
+.panel-btn.btn-new { background: #8b1a1a; color: #f5f0e8; border-color: #8b1a1a; }
+.panel-btn.btn-new:hover { background: #6d1414; }
+.panel-btn.btn-sep { border-top: 2px solid #c8b89a; margin-top: 8px; padding-top: 12px; }
+.panel-content {
+  border: 1px solid #c8b89a;
+  background: #f5f0e8;
+  min-height: 300px;
+}
+.content-header {
+  padding: 12px 16px;
+  border-bottom: 2px solid #1a1008;
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #0d0700;
+  background: #ede8dc;
+}
+.content-body { padding: 0; }
+.item-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 16px; border-bottom: 1px solid #c8b89a; font-size: 13px; }
+.item-row:last-child { border-bottom: none; }
+.item-row:hover { background: #ede8dc; }
+.item-titulo { font-family: 'Playfair Display', serif; font-weight: 700; color: #0d0700; font-size: 13px; }
+.item-meta { font-size: 11px; color: #888; font-family: Georgia, serif; margin-top: 2px; }
+.item-acciones { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; min-width: 120px; }
+.item-acciones a { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+.btn-editar { color: #1a1a8b; }
+.btn-eliminar { color: #8b1a1a; }
+.btn-tendencia { color: #8b6914; }
+.vacio { text-align: center; padding: 3rem; color: #888; font-style: italic; font-size: 13px; }
+.paginacion { display: flex; gap: 6px; padding: 10px 16px; border-top: 1px solid #c8b89a; }
+.paginacion a { font-family: 'Playfair Display', serif; font-size: 11px; border: 1px solid #c8b89a; padding: 3px 10px; text-decoration: none; color: #1a1008; }
+.paginacion a.activo { background: #8b1a1a; color: #f5f0e8; border-color: #8b1a1a; }
+.tabla-registros { width: 100%; border-collapse: collapse; }
+.tabla-registros th { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 16px; text-align: left; color: #0d0700; border-bottom: 2px solid #1a1008; background: #ede8dc; }
+.tabla-registros td { padding: 10px 16px; font-size: 13px; border-bottom: 1px solid #c8b89a; color: #2a1a0a; }
+.tabla-registros tr:hover td { background: #ede8dc; }
+.ganador { color: #8b1a1a; font-weight: bold; font-family: 'Playfair Display', serif; }
+{% endblock %}
+
+{% block contenido %}
+
+<!-- HEADER -->
+<div class="panel-header">
+  <div class="panel-header-left">
+    <p>Panel de Redacción</p>
+    {% if request.session.modo_publicacion == 'oficial' %}
+    <h1>Chicago Daily News</h1>
+    {% else %}
+    <h1>{{ request.user.username }}</h1>
+    {% endif %}
+  </div>
+  <div class="panel-header-right">
+    <div>Publicando como: <strong>{% if request.session.modo_publicacion == 'oficial' %}Chicago Daily News{% else %}{{ request.user.username }}{% endif %}</strong></div>
+  </div>
+</div>
+
+<!-- ESTADISTICAS -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-numero">{{ total_noticias }}</div>
+    <div class="stat-label">Noticias publicadas</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-numero">{{ usuarios.paginator.count }}</div>
+    <div class="stat-label">Usuarios registrados</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-numero">{{ comentarios.paginator.count }}</div>
+    <div class="stat-label">Comentarios totales</div>
+  </div>
+</div>
+
+<!-- GRID PRINCIPAL -->
+<div class="panel-grid">
+
+  <!-- SIDEBAR -->
+  <div class="panel-sidebar">
+    <a href="/panel/noticias/nueva/" class="panel-btn btn-new">+ Nueva Noticia</a>
+    <a class="panel-btn active" id="btn-ver-noticias">Ver Noticias</a>
+    <a class="panel-btn" id="btn-ver-usuarios">Usuarios</a>
+    <a class="panel-btn" id="btn-ver-comentarios">Comentarios</a>
+    <a href="/panel/familias/nueva/" class="panel-btn btn-new btn-sep">+ Nueva Familia</a>
+    <a class="panel-btn" id="btn-ver-familias">Ver Familias</a>
+    <a href="/panel/ranking/nuevo/" class="panel-btn btn-new">+ Ranking Familia</a>
+    <a class="panel-btn" id="btn-ver-ranking">Ver Ranking</a>
+    <a href="/" class="panel-btn" style="margin-top:8px;">Ver Periódico</a>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="panel-content">
+
+    <!-- NOTICIAS -->
+    <div id="seccion-noticias">
+      <div class="content-header">Todas las noticias</div>
+      <div class="content-body">
+        {% if noticias_recientes %}
+        {% for noticia in noticias_recientes %}
+        <div class="item-row">
+          <div>
+            <div class="item-titulo">{{ noticia.titulo|truncatewords:10 }}</div>
+            <div class="item-meta">Por {{ noticia.autor }} · {{ noticia.fecha }}</div>
+          </div>
+          <div class="item-acciones">
+            <a href="/panel/noticias/editar/{{ noticia.id }}/" class="btn-editar">Editar</a>
+            <a href="/panel/noticias/tendencia/{{ noticia.id }}/" class="btn-tendencia">{% if noticia.tendencia %}★ Tendencia{% else %}Tendencia{% endif %}</a>
+            <a href="/panel/noticias/eliminar/{{ noticia.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar esta noticia?')">Eliminar</a>
+          </div>
+        </div>
+        {% endfor %}
+        {% if noticias_recientes.has_other_pages %}
+        <div class="paginacion">
+          {% if noticias_recientes.has_previous %}<a href="?p_noticias={{ noticias_recientes.previous_page_number }}">← Ant</a>{% endif %}
+          {% for i in noticias_recientes.paginator.page_range %}<a href="?p_noticias={{ i }}" {% if noticias_recientes.number == i %}class="activo"{% endif %}>{{ i }}</a>{% endfor %}
+          {% if noticias_recientes.has_next %}<a href="?p_noticias={{ noticias_recientes.next_page_number }}">Sig →</a>{% endif %}
+        </div>
+        {% endif %}
+        {% else %}
+        <p class="vacio">No hay noticias aún.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- USUARIOS -->
+    <div id="seccion-usuarios" style="display:none;">
+      <div class="content-header">Usuarios registrados</div>
+      <div class="content-body">
+        {% if usuarios %}
+        {% for usuario in usuarios %}
+        <div class="item-row">
+          <div>
+            <div class="item-titulo">{{ usuario.username }}</div>
+            <div class="item-meta">
+              {{ usuario.date_joined|date:"d/m/Y" }} ·
+              {% if usuario.is_active %}<span style="color:#1a4a1a;">Activo</span>{% else %}<span style="color:#8b1a1a;">Inactivo</span>{% endif %} ·
+              {% if usuario.is_staff %}<span style="color:#1a1a8b;">Con panel</span>{% else %}Sin panel{% endif %}
+            </div>
+          </div>
+          <div class="item-acciones">
+            <a href="/panel/usuarios/deshabilitar/{{ usuario.id }}/" class="btn-editar">{% if usuario.is_active %}Deshabilitar{% else %}Habilitar{% endif %}</a>
+            <a href="/panel/usuarios/permisos/{{ usuario.id }}/" style="color:#1a1a8b; font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; text-decoration:none;">{% if usuario.is_staff %}Quitar Panel{% else %}Dar Panel{% endif %}</a>
+            <a href="/panel/usuarios/eliminar/{{ usuario.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar usuario {{ usuario.username }}?')">Eliminar</a>
+          </div>
+        </div>
+        {% endfor %}
+        {% if usuarios.has_other_pages %}
+        <div class="paginacion">
+          {% if usuarios.has_previous %}<a href="?p_usuarios={{ usuarios.previous_page_number }}">← Ant</a>{% endif %}
+          {% for i in usuarios.paginator.page_range %}<a href="?p_usuarios={{ i }}" {% if usuarios.number == i %}class="activo"{% endif %}>{{ i }}</a>{% endfor %}
+          {% if usuarios.has_next %}<a href="?p_usuarios={{ usuarios.next_page_number }}">Sig →</a>{% endif %}
+        </div>
+        {% endif %}
+        {% else %}
+        <p class="vacio">No hay usuarios registrados.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- COMENTARIOS -->
+    <div id="seccion-comentarios" style="display:none;">
+      <div class="content-header">Comentarios</div>
+      <div class="content-body">
+        {% if comentarios %}
+        {% for comentario in comentarios %}
+        <div class="item-row">
+          <div>
+            <div class="item-titulo">{{ comentario.autor.username }} — {{ comentario.noticia.titulo|truncatewords:6 }}</div>
+            <div class="item-meta">{{ comentario.contenido|truncatewords:15 }} · {{ comentario.fecha|date:"d/m/Y H:i" }}</div>
+          </div>
+          <div class="item-acciones">
+            <a href="/panel/comentarios/eliminar/{{ comentario.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar este comentario?')">Eliminar</a>
+          </div>
+        </div>
+        {% endfor %}
+        {% if comentarios.has_other_pages %}
+        <div class="paginacion">
+          {% if comentarios.has_previous %}<a href="?p_comentarios={{ comentarios.previous_page_number }}">← Ant</a>{% endif %}
+          {% for i in comentarios.paginator.page_range %}<a href="?p_comentarios={{ i }}" {% if comentarios.number == i %}class="activo"{% endif %}>{{ i }}</a>{% endfor %}
+          {% if comentarios.has_next %}<a href="?p_comentarios={{ comentarios.next_page_number }}">Sig →</a>{% endif %}
+        </div>
+        {% endif %}
+        {% else %}
+        <p class="vacio">No hay comentarios aún.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- FAMILIAS -->
+    <div id="seccion-familias" style="display:none;">
+      <div class="content-header">Familias Activas</div>
+      <div class="content-body">
+        {% if familias %}
+        <table class="tabla-registros">
+          <thead>
+            <tr>
+              <th>Familia</th>
+              <th>Don / Donna</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for familia in familias %}
+            <tr>
+              <td><strong>{{ familia.nombre }}</strong></td>
+              <td>{{ familia.don }}</td>
+              <td>{% if familia.estado %}<span style="color:#1a4a1a; font-weight:bold;">● Activa</span>{% else %}<span style="color:#8b1a1a; font-weight:bold;">● Inactiva</span>{% endif %}</td>
+              <td><a href="/panel/familias/eliminar/{{ familia.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar esta familia?')">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="vacio">No hay familias registradas aún.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- RANKING FAMILIAS -->
+    <div id="seccion-ranking" style="display:none;">
+      <div class="content-header">Ranking de Familias</div>
+      <div class="content-body">
+        {% if ranking %}
+        <table class="tabla-registros">
+          <thead>
+            <tr>
+              <th>Familia</th>
+              <th>Pettadas</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in ranking %}
+            <tr>
+              <td><strong>{{ r.familia }}</strong></td>
+              <td>{{ r.pettadas }}</td>
+              <td><a href="/panel/ranking/eliminar/{{ r.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar?')">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="vacio">No hay familias en el ranking aún.</p>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  var secciones = {
+    noticias: document.getElementById('seccion-noticias'),
+    usuarios: document.getElementById('seccion-usuarios'),
+    comentarios: document.getElementById('seccion-comentarios'),
+    familias: document.getElementById('seccion-familias'),
+    ranking: document.getElementById('seccion-ranking'),
+  };
+  var botones = {
+    noticias: document.getElementById('btn-ver-noticias'),
+    usuarios: document.getElementById('btn-ver-usuarios'),
+    comentarios: document.getElementById('btn-ver-comentarios'),
+    familias: document.getElementById('btn-ver-familias'),
+    ranking: document.getElementById('btn-ver-ranking'),
+  };
+
+  function mostrar(seccion) {
+    Object.keys(secciones).forEach(function(k) {
+      secciones[k].style.display = k === seccion ? 'block' : 'none';
+      botones[k].classList.toggle('active', k === seccion);
+    });
+  }
+
+  botones.noticias.addEventListener('click', function() { mostrar('noticias'); });
+  botones.usuarios.addEventListener('click', function() { mostrar('usuarios'); });
+  botones.comentarios.addEventListener('click', function() { mostrar('comentarios'); });
+  botones.familias.addEventListener('click', function() { mostrar('familias'); });
+  botones.ranking.addEventListener('click', function() { mostrar('ranking'); });
+</script>
+{% endblock %}

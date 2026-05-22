@@ -1,0 +1,31 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('login/', views.login_view, name='login'),
+    path('registro/', views.registro_view, name='registro'),
+    path('logout/', views.logout_view, name='logout'),
+    path('panel/', views.panel_view, name='panel'),
+    path('panel/noticias/', views.noticias_lista, name='noticias_lista'),
+    path('panel/noticias/nueva/', views.noticia_nueva, name='noticia_nueva'),
+    path('panel/noticias/editar/<int:id>/', views.noticia_editar, name='noticia_editar'),
+    path('panel/noticias/eliminar/<int:id>/', views.noticia_eliminar, name='noticia_eliminar'),
+    path('noticia/<int:id>/', views.noticia_detalle, name='noticia_detalle'),
+    path('panel/usuarios/', views.usuarios_lista, name='usuarios_lista'),
+    path('panel/usuarios/eliminar/<int:id>/', views.usuario_eliminar, name='usuario_eliminar'),
+    path('panel/usuarios/deshabilitar/<int:id>/', views.usuario_deshabilitar, name='usuario_deshabilitar'),
+    path('panel/usuarios/permisos/<int:id>/', views.usuario_permisos, name='usuario_permisos'),
+    path('panel/noticias/tendencia/<int:id>/', views.noticia_tendencia, name='noticia_tendencia'),
+    path('noticias/', views.todas_noticias, name='todas_noticias'),
+    path('set-modo/', views.set_modo, name='set_modo'),
+    path('panel/comentarios/', views.comentarios_lista, name='comentarios_lista'),
+    path('panel/comentarios/eliminar/<int:id>/', views.comentario_eliminar, name='comentario_eliminar'),
+    path('registros-belicos/', views.registros_belicos, name='registros_belicos'),
+path('panel/registros/nuevo/', views.registro_nuevo, name='registro_nuevo'),
+path('panel/ranking/nuevo/', views.ranking_nuevo, name='ranking_nuevo'),
+path('panel/ranking/eliminar/<int:id>/', views.ranking_eliminar, name='ranking_eliminar'),
+path('familias-activas/', views.familias_activas, name='familias_activas'),
+path('panel/familias/nueva/', views.familia_nueva, name='familia_nueva'),
+path('panel/familias/eliminar/<int:id>/', views.familia_eliminar, name='familia_eliminar'),
+]
