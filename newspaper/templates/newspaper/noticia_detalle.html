@@ -13,7 +13,18 @@
 <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" style="width:100%; max-height:400px; object-fit:cover; border:1px solid #c8b89a; margin-bottom:1.5rem;">
 {% endif %}
 
-<div style="font-size:15px; line-height:1.8; color:#2a1a0a; text-align:justify;">
+<style>
+  .contenido-noticia blockquote {
+    border-left: 3px solid #8b1a1a;
+    margin: 1rem 0;
+    padding: 8px 14px;
+    background: #e8e0ce;
+    font-style: italic;
+    color: #2a1f10;
+  }
+</style>
+
+<div class="contenido-noticia" style="font-size:15px; line-height:1.8; color:#2a1a0a; text-align:justify;">
   {{ noticia.contenido|safe }}
 </div>
 
