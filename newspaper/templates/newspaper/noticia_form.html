@@ -33,6 +33,9 @@ input[type="text"], input[type="file"] { width: 100%; padding: 8px 10px; border:
 .ql-container { background: #ede8dc; border: 1px solid #c8b89a !important; min-height: 250px; }
 .ql-editor { font-family: 'IM Fell English', Georgia, serif; font-size: 14px; color: #1a1008; line-height: 1.7; min-height: 250px; }
 .ql-editor.ql-blank::before { color: #aaa; font-style: italic; }
+
+/* Blockquote estilo periódico */
+.ql-editor blockquote { border-left: 3px solid #8b1a1a; margin: 1rem 0; padding: 8px 14px; background: #e8e0ce; font-style: italic; color: #2a1f10; }
 </style>
 </head>
 <body>
@@ -86,6 +89,7 @@ input[type="text"], input[type="file"] { width: 100%; padding: 8px 10px; border:
         ['bold', 'italic', 'underline'],
         [{ 'color': [] }],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['blockquote'],
         ['link', 'image'],
         ['clean']
       ]
