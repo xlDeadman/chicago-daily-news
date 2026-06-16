@@ -72,6 +72,13 @@ tr:hover td { background: #ede8dc; }
     {% endfor %}
   </tbody>
 </table>
+{% if ranking.has_other_pages %}
+<div class="paginacion">
+  {% if ranking.has_previous %}<a href="?pagina_ranking={{ ranking.previous_page_number }}">← Anterior</a>{% endif %}
+  {% for i in ranking.paginator.page_range %}<a href="?pagina_ranking={{ i }}" {% if ranking.number == i %}class="activo"{% endif %}>{{ i }}</a>{% endfor %}
+  {% if ranking.has_next %}<a href="?pagina_ranking={{ ranking.next_page_number }}">Siguiente →</a>{% endif %}
+</div>
+{% endif %}
 {% else %}
 <p class="vacio">No hay familias registradas aún.</p>
 {% endif %}

@@ -207,7 +207,10 @@ def registros_belicos(request):
     paginator = Paginator(registros_todos, 6)
     pagina = request.GET.get('pagina', 1)
     registros = paginator.get_page(pagina)
-    ranking = RankingFamilia.objects.all()
+    ranking_todos = RankingFamilia.objects.all()
+    paginator_ranking = Paginator(ranking_todos, 10)
+    pagina_ranking = request.GET.get('pagina_ranking', 1)
+    ranking = paginator_ranking.get_page(pagina_ranking)
     return render(request, 'newspaper/registros_belicos.html', {
         'user': request.user,
         'registros': registros,
@@ -222,11 +225,11 @@ def registro_nuevo(request):
         ganador = request.POST.get('ganador')
         fecha = request.POST.get('fecha')
         RegistroBelico.objects.create(
-    familia1=familia1,
-    familia2=familia2,
-    ganador=ganador,
-    fecha=fecha if fecha else None
-)
+            familia1=familia1,
+            familia2=familia2,
+            ganador=ganador,
+            fecha=fecha if fecha else None
+        )
         return redirect('/panel/')
     return render(request, 'newspaper/registro_form.html')
 
