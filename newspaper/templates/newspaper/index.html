@@ -3,33 +3,273 @@
 <html lang="es">
 <head>
   <link rel="icon" type="image/x-icon" href="{% static 'newspaper/favicon.ico' %}">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chicago Daily News | El diario del mundillo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #d9d0c0; display: flex; justify-content: center; padding: 2rem; min-height: auto; }
-.periodico { background: #f5f0e8; color: #1a1008; font-family: 'IM Fell English', Georgia, serif; padding: 0 0 2rem; border: 1px solid #c8b89a; max-width: 900px; width: 100%; box-shadow: 4px 4px 20px rgba(0,0,0,0.25); }
-.cabecera { border-bottom: 4px double #1a1008; padding: 1.25rem 2rem 0.75rem; text-align: center; background: #ede8dc; }
-.cabecera-top { display: flex; justify-content: space-between; align-items: flex-end; font-size: 11px; color: #555; margin-bottom: 0.4rem; font-family: Georgia, serif; letter-spacing: 0.05em; }
-.nombre-periodico { font-family: 'UnifrakturMaguntia', cursive; font-size: 80px; line-height: 1; color: #0d0700; letter-spacing: -1px; }
-.subtitulo-cabecera { font-family: 'Playfair Display', serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #444; margin: 0.2rem 0 0.3rem; padding: 3px 0; }
-.edition-line { font-family: Georgia, serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #666; border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 3px 0; margin-bottom: 0.5rem; }
-.nav-bar { display: flex; justify-content: center; gap: 0; font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1008; padding: 6px 0 4px; border-top: 1px solid #aaa; }
-.nav-bar span { padding: 0 14px; cursor: pointer; border-right: 1px solid #aaa; }
-.nav-bar span:first-child { border-left: 1px solid #aaa; }
-.nav-bar span:hover { text-decoration: underline; }
-.nav-bar a { text-decoration: none; color: #1a1008; }
-.nav-bar #btn-usuario:hover { text-decoration: none; }
-.linea-roja { height: 5px; background: #8b1a1a; }
-.cuerpo { padding: 1rem 2rem; }
-.recuadro-escandalo { background: #8b1a1a; color: #f5f0e8; padding: 10px 16px; text-align: center; margin: 1rem 0 0; }
-.recuadro-escandalo p { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; line-height: 1.5; }
-.recuadro-escandalo strong { font-size: 15px; display: block; font-style: normal; letter-spacing: 0.1em; margin-bottom: 4px; }
-.pie-pagina { border-top: 3px double #1a1008; margin: 1rem 2rem 0; padding-top: 5px; display: flex; justify-content: space-between; font-size: 11px; color: #666; font-family: Georgia, serif; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chicago Daily News | El diario del mundillo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #d9d0c0;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    min-height: auto;
+  }
+
+  .periodico {
+    background: #f5f0e8;
+    color: #1a1008;
+    font-family: 'IM Fell English', Georgia, serif;
+    padding: 0 0 2rem;
+    border: 1px solid #c8b89a;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: 4px 4px 20px rgba(0,0,0,0.25);
+  }
+
+  /* CABECERA */
+  .cabecera {
+    border-bottom: 4px double #1a1008;
+    padding: 1.25rem 2rem 0.75rem;
+    text-align: center;
+    background: #ede8dc;
+  }
+
+  .cabecera-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 0.4rem;
+    font-family: Georgia, serif;
+    letter-spacing: 0.05em;
+  }
+
+  .nombre-periodico {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 80px;
+    line-height: 1;
+    color: #0d0700;
+    letter-spacing: -1px;
+  }
+
+  .subtitulo-cabecera {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #444;
+    margin: 0.2rem 0 0.3rem;
+    padding: 3px 0;
+  }
+
+  .edition-line {
+    font-family: Georgia, serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #666;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+    padding: 3px 0;
+    margin-bottom: 0.5rem;
+  }
+
+  /* NAV */
+  .nav-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1a1008;
+    padding: 6px 0 4px;
+    border-top: 1px solid #aaa;
+  }
+
+  .nav-bar span {
+    padding: 4px 14px;
+    cursor: pointer;
+    border-right: 1px solid #aaa;
+    white-space: nowrap;
+  }
+
+  .nav-bar span:first-child { border-left: 1px solid #aaa; }
+  .nav-bar span:hover { text-decoration: underline; }
+  .nav-bar a { text-decoration: none; color: #1a1008; }
+  .nav-bar #btn-usuario:hover { text-decoration: none; }
+
+  .linea-roja { height: 5px; background: #8b1a1a; }
+
+  .cuerpo { padding: 1rem 2rem; }
+
+  /* COLUMNAS */
+  .columnas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #c8b89a;
+    padding-bottom: 1rem;
+  }
+
+  .columna-item {
+    padding: 0 14px;
+  }
+
+  .columna-item:first-child {
+    border-right: 1px solid #c8b89a;
+  }
+
+  /* MIXTAS */
+  .mixta-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 14px;
+    padding: 10px 0;
+  }
+
+  /* TENDENCIA */
+  .recuadro-escandalo {
+    background: #8b1a1a;
+    color: #f5f0e8;
+    padding: 10px 16px;
+    text-align: center;
+    margin: 1rem 0 0;
+  }
+
+  .recuadro-escandalo p {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .recuadro-escandalo strong {
+    font-size: 15px;
+    display: block;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .pie-pagina {
+    border-top: 3px double #1a1008;
+    margin: 1rem 2rem 0;
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #666;
+    font-family: Georgia, serif;
+  }
+
+  /* =====================
+     RESPONSIVE MÓVIL
+     ===================== */
+  @media (max-width: 600px) {
+
+    body {
+      padding: 0;
+      background: #f5f0e8;
+    }
+
+    .periodico {
+      border: none;
+      box-shadow: none;
+    }
+
+    .cabecera {
+      padding: 0.75rem 1rem 0.5rem;
+    }
+
+    .cabecera-top {
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    /* Ocultar spans laterales en móvil */
+    .cabecera-top .ct-left,
+    .cabecera-top .ct-right {
+      display: none;
+    }
+
+    .nombre-periodico {
+      font-size: 38px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitulo-cabecera {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+    }
+
+    .edition-line {
+      font-size: 9px;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-bar {
+      font-size: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-bar span {
+      padding: 5px 8px;
+      border-left: none !important;
+      border-right: 1px solid #aaa;
+    }
+
+    .cuerpo {
+      padding: 0.75rem 1rem;
+    }
+
+    /* Noticia principal: título más pequeño */
+    .noticia-principal h1 {
+      font-size: 28px !important;
+    }
+
+    /* 2 columnas → 1 columna en móvil */
+    .columnas-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .columna-item {
+      padding: 0 0 1rem 0;
+      border-right: none !important;
+      border-bottom: 1px solid #c8b89a;
+    }
+
+    .columna-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    /* Mixtas → 1 columna */
+    .mixta-grid {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .pie-pagina {
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin: 1rem 1rem 0;
+      text-align: center;
+    }
+
+    .pie-pagina span:not(:first-child) {
+      display: none;
+    }
+  }
+  </style>
 </head>
 <body>
 <div class="periodico">
@@ -37,9 +277,9 @@ body { background: #d9d0c0; display: flex; justify-content: center; padding: 2re
   <!-- CABECERA -->
   <div class="cabecera">
     <div class="cabecera-top">
-      <span>Chicago Daily News · Est. 2025</span>
-    <span>@ChicagoDNews · Habbo City Edition</span>
-    <span>«Todo el drama que cabe en un pixel»</span>
+      <span class="ct-left">Chicago Daily News · Est. 2025</span>
+      <span>@ChicagoDNews · Habbo City Edition</span>
+      <span class="ct-right">«Todo el drama que cabe en un pixel»</span>
     </div>
     <div style="border-top:1px solid #999; margin-bottom:0.4rem;"></div>
     <div class="nombre-periodico">Chicago Daily News</div>
@@ -72,7 +312,7 @@ body { background: #d9d0c0; display: flex; justify-content: center; padding: 2re
 
     <!-- NOTICIA PRINCIPAL -->
     {% if principal %}
-    <div style="text-align:center; border-bottom:2px solid #1a1008; padding-bottom:1rem; margin-bottom:1rem;">
+    <div class="noticia-principal" style="text-align:center; border-bottom:2px solid #1a1008; padding-bottom:1rem; margin-bottom:1rem;">
       <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Noticia Principal</p>
       <h1 style="font-family:'Playfair Display',serif; font-size:44px; font-weight:900; line-height:1.05; color:#0d0700; margin-bottom:0.3rem;">{{ principal.titulo }}</h1>
       <p style="font-size:12px; color:#666; font-family:Georgia,serif; margin:0.3rem 0 0.8rem;">Por {{ principal.autor }} · {{ principal.fecha }}</p>
@@ -83,9 +323,9 @@ body { background: #d9d0c0; display: flex; justify-content: center; padding: 2re
 
     <!-- 2 COLUMNAS -->
     {% if columnas %}
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; margin-bottom:1rem; border-bottom:1px solid #c8b89a; padding-bottom:1rem;">
+    <div class="columnas-grid">
       {% for noticia in columnas %}
-      <div style="padding:0 14px; {% if forloop.first %}border-right:1px solid #c8b89a;{% endif %}">
+      <div class="columna-item">
         <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
         <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
         <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
@@ -99,7 +339,7 @@ body { background: #d9d0c0; display: flex; justify-content: center; padding: 2re
     <!-- MIXTAS -->
     {% if mixtas %}
     {% for noticia in mixtas %}
-    <div style="display:grid; grid-template-columns:1fr 2fr; gap:14px; padding:10px 0;">
+    <div class="mixta-grid">
       <div style="padding-top:8px;">
         <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
         <h3 style="font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:#0d0700; line-height:1.2;">{{ noticia.titulo }}</h3>

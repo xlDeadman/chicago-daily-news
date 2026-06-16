@@ -10,22 +10,196 @@
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #d9d0c0; display: flex; justify-content: center; padding: 2rem; min-height: 100vh; align-items: flex-start; }
-.periodico { background: #f5f0e8; color: #1a1008; font-family: 'IM Fell English', Georgia, serif; padding: 0 0 2rem; border: 1px solid #c8b89a; max-width: 900px; width: 100%; box-shadow: 4px 4px 20px rgba(0,0,0,0.25); }
-.cabecera { border-bottom: 4px double #1a1008; padding: 1.25rem 2rem 0.75rem; text-align: center; background: #ede8dc; }
-.cabecera-top { display: flex; justify-content: space-between; align-items: flex-end; font-size: 11px; color: #555; margin-bottom: 0.4rem; font-family: Georgia, serif; letter-spacing: 0.05em; }
-.nombre-periodico { font-family: 'UnifrakturMaguntia', cursive; font-size: 80px; line-height: 1; color: #0d0700; letter-spacing: -1px; }
-.subtitulo-cabecera { font-family: 'Playfair Display', serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #444; margin: 0.2rem 0 0.3rem; padding: 3px 0; }
-.edition-line { font-family: Georgia, serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #666; border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 3px 0; margin-bottom: 0.5rem; }
-.nav-bar { display: flex; justify-content: center; gap: 0; font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1008; padding: 6px 0 4px; border-top: 1px solid #aaa; }
-.nav-bar span { padding: 0 14px; cursor: pointer; border-right: 1px solid #aaa; }
+
+body {
+  background: #d9d0c0;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+.periodico {
+  background: #f5f0e8;
+  color: #1a1008;
+  font-family: 'IM Fell English', Georgia, serif;
+  padding: 0 0 2rem;
+  border: 1px solid #c8b89a;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 4px 4px 20px rgba(0,0,0,0.25);
+}
+
+/* CABECERA */
+.cabecera {
+  border-bottom: 4px double #1a1008;
+  padding: 1.25rem 2rem 0.75rem;
+  text-align: center;
+  background: #ede8dc;
+}
+
+.cabecera-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 11px;
+  color: #555;
+  margin-bottom: 0.4rem;
+  font-family: Georgia, serif;
+  letter-spacing: 0.05em;
+}
+
+/* Ocultar los spans laterales en móvil, dejar solo el central */
+.cabecera-top .ct-left,
+.cabecera-top .ct-right { display: inline; }
+
+.nombre-periodico {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 80px;
+  line-height: 1;
+  color: #0d0700;
+  letter-spacing: -1px;
+}
+
+.subtitulo-cabecera {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #444;
+  margin: 0.2rem 0 0.3rem;
+  padding: 3px 0;
+}
+
+.edition-line {
+  font-family: Georgia, serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #666;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  padding: 3px 0;
+  margin-bottom: 0.5rem;
+}
+
+/* NAV BAR */
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1008;
+  padding: 6px 0 4px;
+  border-top: 1px solid #aaa;
+}
+
+.nav-bar span {
+  padding: 4px 14px;
+  cursor: pointer;
+  border-right: 1px solid #aaa;
+  white-space: nowrap;
+}
+
 .nav-bar span:first-child { border-left: 1px solid #aaa; }
 .nav-bar span:hover { text-decoration: underline; }
 .nav-bar a { text-decoration: none; color: #1a1008; }
 .nav-bar #btn-usuario:hover { text-decoration: none; }
+
 .linea-roja { height: 5px; background: #8b1a1a; }
+
 .cuerpo { padding: 1rem 2rem; }
-.pie-pagina { border-top: 3px double #1a1008; margin: 1rem 2rem 0; padding-top: 5px; display: flex; justify-content: space-between; font-size: 11px; color: #666; font-family: Georgia, serif; }
+
+.pie-pagina {
+  border-top: 3px double #1a1008;
+  margin: 1rem 2rem 0;
+  padding-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #666;
+  font-family: Georgia, serif;
+}
+
+/* =====================
+   RESPONSIVE MÓVIL
+   ===================== */
+@media (max-width: 600px) {
+
+  body {
+    padding: 0;
+    background: #f5f0e8;
+  }
+
+  .periodico {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .cabecera {
+    padding: 0.75rem 1rem 0.5rem;
+  }
+
+  /* En móvil: ocultar spans laterales del cabecera-top */
+  .cabecera-top {
+    justify-content: center;
+    font-size: 10px;
+  }
+  .cabecera-top .ct-left,
+  .cabecera-top .ct-right {
+    display: none;
+  }
+
+  .nombre-periodico {
+    font-size: 38px;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitulo-cabecera {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+  }
+
+  .edition-line {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  /* Nav en móvil: dos filas compactas */
+  .nav-bar {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-bar span {
+    padding: 5px 9px;
+    border-left: none !important;
+    border-right: 1px solid #aaa;
+  }
+
+  .cuerpo {
+    padding: 0.75rem 1rem;
+  }
+
+  .pie-pagina {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 1rem 1rem 0;
+    text-align: center;
+  }
+
+  /* Ocultar spans 2 y 3 del pie en móvil */
+  .pie-pagina span:not(:first-child) {
+    display: none;
+  }
+}
 </style>
 <style>
 {% block extra_css %}
@@ -38,9 +212,9 @@ body { background: #d9d0c0; display: flex; justify-content: center; padding: 2re
   <!-- CABECERA -->
   <div class="cabecera">
     <div class="cabecera-top">
-      <span>Chicago Daily News · Est. 2025</span>
-    <span>@ChicagoDNews · Habbo City Edition</span>
-    <span>«Todo el drama que cabe en un pixel»</span>
+      <span class="ct-left">Chicago Daily News · Est. 2025</span>
+      <span>@ChicagoDNews · Habbo City Edition</span>
+      <span class="ct-right">«Todo el drama que cabe en un pixel»</span>
     </div>
     <div style="border-top:1px solid #999; margin-bottom:0.4rem;"></div>
     <div class="nombre-periodico">Chicago Daily News</div>
