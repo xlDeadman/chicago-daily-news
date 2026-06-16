@@ -168,9 +168,7 @@
     <a class="panel-btn active" id="btn-ver-noticias">Ver Noticias</a>
     <a class="panel-btn" id="btn-ver-usuarios">Usuarios</a>
     <a class="panel-btn" id="btn-ver-comentarios">Comentarios</a>
-    <a href="/panel/familias/nueva/" class="panel-btn btn-new btn-sep">+ Nueva Familia</a>
-    <a class="panel-btn" id="btn-ver-familias">Ver Familias</a>
-    <a href="/panel/ranking/nuevo/" class="panel-btn btn-new">+ Ranking Familia</a>
+    <a href="/panel/ranking/nuevo/" class="panel-btn btn-new btn-sep">+ Ranking Familia</a>
     <a class="panel-btn" id="btn-ver-ranking">Ver Ranking</a>
     <a href="/" class="panel-btn" style="margin-top:8px;">Ver Periódico</a>
   </div>
@@ -273,37 +271,6 @@
       </div>
     </div>
 
-    <!-- FAMILIAS -->
-    <div id="seccion-familias" style="display:none;">
-      <div class="content-header">Familias Activas</div>
-      <div class="content-body">
-        {% if familias %}
-        <table class="tabla-registros">
-          <thead>
-            <tr>
-              <th>Familia</th>
-              <th>Don / Donna</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for familia in familias %}
-            <tr>
-              <td><strong>{{ familia.nombre }}</strong></td>
-              <td>{{ familia.don }}</td>
-              <td>{% if familia.estado %}<span style="color:#1a4a1a; font-weight:bold;">● Activa</span>{% else %}<span style="color:#8b1a1a; font-weight:bold;">● Inactiva</span>{% endif %}</td>
-              <td><a href="/panel/familias/eliminar/{{ familia.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar esta familia?')">Eliminar</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <p class="vacio">No hay familias registradas aún.</p>
-        {% endif %}
-      </div>
-    </div>
-
     <!-- RANKING FAMILIAS -->
     <div id="seccion-ranking" style="display:none;">
       <div class="content-header">Ranking de Familias</div>
@@ -344,14 +311,12 @@
     noticias: document.getElementById('seccion-noticias'),
     usuarios: document.getElementById('seccion-usuarios'),
     comentarios: document.getElementById('seccion-comentarios'),
-    familias: document.getElementById('seccion-familias'),
     ranking: document.getElementById('seccion-ranking'),
   };
   var botones = {
     noticias: document.getElementById('btn-ver-noticias'),
     usuarios: document.getElementById('btn-ver-usuarios'),
     comentarios: document.getElementById('btn-ver-comentarios'),
-    familias: document.getElementById('btn-ver-familias'),
     ranking: document.getElementById('btn-ver-ranking'),
   };
 
@@ -365,7 +330,6 @@
   botones.noticias.addEventListener('click', function() { mostrar('noticias'); });
   botones.usuarios.addEventListener('click', function() { mostrar('usuarios'); });
   botones.comentarios.addEventListener('click', function() { mostrar('comentarios'); });
-  botones.familias.addEventListener('click', function() { mostrar('familias'); });
   botones.ranking.addEventListener('click', function() { mostrar('ranking'); });
 </script>
 {% endblock %}
