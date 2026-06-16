@@ -221,7 +221,12 @@ def registro_nuevo(request):
         familia2 = request.POST.get('familia2')
         ganador = request.POST.get('ganador')
         fecha = request.POST.get('fecha')
-        RegistroBelico.objects.create(familia1=familia1, familia2=familia2, ganador=ganador, fecha=fecha)
+        RegistroBelico.objects.create(
+    familia1=familia1,
+    familia2=familia2,
+    ganador=ganador,
+    fecha=fecha if fecha else None
+)
         return redirect('/panel/')
     return render(request, 'newspaper/registro_form.html')
 

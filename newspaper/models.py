@@ -25,7 +25,7 @@ class RegistroBelico(models.Model):
     familia1 = models.CharField(max_length=100)
     familia2 = models.CharField(max_length=100)
     ganador = models.CharField(max_length=100)
-    fecha = models.DateField()
+    fecha = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.familia1} vs {self.familia2}'
