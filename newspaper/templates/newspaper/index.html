@@ -120,11 +120,25 @@
   }
 
   .columna-item {
-    padding: 0 14px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
   }
 
-  .columna-item:first-child {
+  .columna-item:nth-child(odd) {
     border-right: 1px solid #c8b89a;
+  }
+
+  .columna-item:nth-child(n+3) {
+    border-top: 1px solid #c8b89a;
+  }
+
+  .columna-item .resumen {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
   }
 
   /* MIXTAS */
@@ -241,8 +255,9 @@
     }
 
     .columna-item {
-      padding: 0 0 1rem 0;
+      padding: 1rem 0;
       border-right: none !important;
+      border-top: none !important;
       border-bottom: 1px solid #c8b89a;
     }
 
@@ -320,7 +335,7 @@
     </div>
     {% endif %}
 
-    <!-- 2 COLUMNAS -->
+    <!-- NOTICIAS EN 2 COLUMNAS (todas del mismo tamaño) -->
     {% if columnas %}
     <div class="columnas-grid">
       {% for noticia in columnas %}
@@ -328,28 +343,20 @@
         <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
         <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
         <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
-        <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ noticia.contenido|striptags|truncatewords:35 }}</p>
+        <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|striptags|truncatewords:60 }}</p>
+        <a href="/noticia/{{ noticia.id }}/" style="font-family:'Playfair Display',serif; font-size:11px; color:#8b1a1a; text-decoration:none; display:inline-block; margin-top:8px;">Leer más →</a>
+      </div>
+      {% endfor %}
+      {% for noticia in mixtas %}
+      <div class="columna-item">
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
+        <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
+        <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
+        <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|striptags|truncatewords:60 }}</p>
         <a href="/noticia/{{ noticia.id }}/" style="font-family:'Playfair Display',serif; font-size:11px; color:#8b1a1a; text-decoration:none; display:inline-block; margin-top:8px;">Leer más →</a>
       </div>
       {% endfor %}
     </div>
-    {% endif %}
-
-    <!-- MIXTAS -->
-    {% if mixtas %}
-    {% for noticia in mixtas %}
-    <div class="mixta-grid">
-      <div style="padding-top:8px;">
-        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
-        <h3 style="font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:#0d0700; line-height:1.2;">{{ noticia.titulo }}</h3>
-        <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-top:4px;">{{ noticia.autor }} · {{ noticia.fecha }}</p>
-        <a href="/noticia/{{ noticia.id }}/" style="font-family:'Playfair Display',serif; font-size:11px; color:#8b1a1a; text-decoration:none; display:inline-block; margin-top:6px;">Leer más →</a>
-      </div>
-      <div style="padding-top:8px;">
-        <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ noticia.contenido|striptags|truncatewords:40 }}</p>
-      </div>
-    </div>
-    {% endfor %}
     {% endif %}
 
     <!-- TENDENCIA -->
