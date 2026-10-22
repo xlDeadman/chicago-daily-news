@@ -149,24 +149,58 @@
   }
 
   /* ANUNCIO US TIMES */
-  .anuncios-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+  .carrusel {
+    position: relative;
     margin: 1.5rem 0 1rem;
+    padding-bottom: 26px;
   }
-  @media (max-width: 700px) {
-    .anuncios-grid { grid-template-columns: 1fr; }
-  }
+  .carrusel-slide { display: none; }
+  .carrusel-slide.activo { display: flex; animation: carrusel-entrar 0.6s ease; }
+  @keyframes carrusel-entrar { from { opacity: 0; } to { opacity: 1; } }
   .anuncio-aliado {
     border: 3px double #1a1008;
     padding: 6px;
-    display: flex;
   }
+  .carrusel-flecha {
+    position: absolute;
+    top: calc(50% - 13px);
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border: 1px solid #1a1008;
+    background: #f5f0e8;
+    color: #1a1008;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .carrusel-flecha:hover { background: #1a1008; color: #f5f0e8; }
+  .carrusel-prev { left: 16px; }
+  .carrusel-next { right: 16px; }
+  .carrusel-puntos {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  .carrusel-puntos button {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid #1a1008;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+  .carrusel-puntos button.activo { background: #8b1a1a; border-color: #8b1a1a; }
   .anuncio-aliado-interior {
     border: 1px solid #1a1008;
     background: #ede8dc;
-    padding: 18px 20px;
+    padding: 18px 60px;
+    min-height: 210px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -174,6 +208,11 @@
     width: 100%;
   }
   .anuncio-aliado .anuncio-boton { margin-top: auto; }
+  @media (max-width: 700px) {
+    .anuncio-aliado-interior { padding: 18px 44px; }
+    .carrusel-prev { left: 10px; }
+    .carrusel-next { right: 10px; }
+  }
   .anuncio-aliado .anuncio-etiqueta {
     font-family: 'Playfair Display', serif;
     font-size: 10px;
@@ -183,7 +222,7 @@
   }
   .anuncio-aliado .anuncio-nombre {
     font-family: 'UnifrakturMaguntia', cursive;
-    font-size: 34px;
+    font-size: 40px;
     line-height: 1.1;
     color: #0d0700;
     margin: 6px 0 4px;
@@ -430,9 +469,9 @@
     </div>
     {% endif %}
 
-    <!-- ANUNCIOS: PÁGINAS RECOMENDADAS -->
-    <div class="anuncios-grid">
-      <div class="anuncio-aliado">
+    <!-- ANUNCIOS: CARRUSEL DE PÁGINAS RECOMENDADAS -->
+    <div class="carrusel" id="carrusel-anuncios">
+      <div class="anuncio-aliado carrusel-slide activo">
         <div class="anuncio-aliado-interior">
           <div class="anuncio-etiqueta">✦ Lectura recomendada ✦</div>
           <div class="anuncio-nombre">US Times</div>
@@ -441,7 +480,7 @@
           <a href="https://ustimes.jimdofree.com/" target="_blank" rel="noopener" class="anuncio-boton">Leer US Times →</a>
         </div>
       </div>
-      <div class="anuncio-aliado">
+      <div class="anuncio-aliado carrusel-slide">
         <div class="anuncio-aliado-interior">
           <div class="anuncio-etiqueta">✦ Registro oficial ✦</div>
           <div class="anuncio-nombre">Registro de Famiglias</div>
@@ -450,7 +489,40 @@
           <a href="https://www.regfamiglias.com/" target="_blank" rel="noopener" class="anuncio-boton">Ver registros →</a>
         </div>
       </div>
+      <button type="button" class="carrusel-flecha carrusel-prev" aria-label="Anterior">‹</button>
+      <button type="button" class="carrusel-flecha carrusel-next" aria-label="Siguiente">›</button>
+      <div class="carrusel-puntos"></div>
     </div>
+    <script>
+    (function () {
+      var c = document.getElementById('carrusel-anuncios');
+      if (!c) return;
+      var slides = c.querySelectorAll('.carrusel-slide');
+      var puntos = c.querySelector('.carrusel-puntos');
+      var i = 0, timer;
+      slides.forEach(function (_, n) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.setAttribute('aria-label', 'Anuncio ' + (n + 1));
+        d.onclick = function () { ir(n); reiniciar(); };
+        puntos.appendChild(d);
+      });
+      function ir(n) {
+        slides[i].classList.remove('activo');
+        puntos.children[i].classList.remove('activo');
+        i = (n + slides.length) % slides.length;
+        slides[i].classList.add('activo');
+        puntos.children[i].classList.add('activo');
+      }
+      function reiniciar() { clearInterval(timer); timer = setInterval(function () { ir(i + 1); }, 6000); }
+      c.querySelector('.carrusel-prev').onclick = function () { ir(i - 1); reiniciar(); };
+      c.querySelector('.carrusel-next').onclick = function () { ir(i + 1); reiniciar(); };
+      c.addEventListener('mouseenter', function () { clearInterval(timer); });
+      c.addEventListener('mouseleave', reiniciar);
+      puntos.children[0].classList.add('activo');
+      reiniciar();
+    })();
+    </script>
 
     <!-- TENDENCIA -->
     {% if tendencia %}
