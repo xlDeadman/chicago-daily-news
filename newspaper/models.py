@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+SECCIONES = [
+    ('eventos', 'Eventos'),
+    ('salas', 'Salas'),
+    ('aniversarios', 'Aniversarios'),
+    ('homenajes', 'Homenajes'),
+    ('nombramientos', 'Nombramientos'),
+    ('comunicados', 'Comunicados'),
+]
+
 class Noticia(models.Model):
     titulo = models.CharField(max_length=200)
     autor = models.CharField(max_length=100)
@@ -8,6 +17,7 @@ class Noticia(models.Model):
     contenido = models.TextField()
     imagen = models.ImageField(upload_to='noticias/', blank=True, null=True)
     tendencia = models.BooleanField(default=False)
+    seccion = models.CharField(max_length=20, choices=SECCIONES, blank=True, default='')
 
     def __str__(self):
         return self.titulo

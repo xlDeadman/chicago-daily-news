@@ -525,7 +525,7 @@
     <!-- NOTICIA PRINCIPAL -->
     {% if principal %}
     <div class="noticia-principal" style="text-align:center; border-bottom:2px solid #1a1008; padding-bottom:1rem; margin-bottom:1rem;">
-      <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Noticia Principal</p>
+      <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Noticia Principal{% if principal.seccion %} · <a href="/noticias/?seccion={{ principal.seccion }}" style="color:inherit; text-decoration:none;">{{ principal.get_seccion_display }}</a>{% endif %}</p>
       <h1 style="font-family:'Playfair Display',serif; font-size:44px; font-weight:900; line-height:1.05; color:#0d0700; margin-bottom:0.3rem;">{{ principal.titulo }}</h1>
       <p style="font-size:12px; color:#666; font-family:Georgia,serif; margin:0.3rem 0 0.8rem;">Por {{ principal.autor }} · {{ principal.fecha }}</p>
       <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ principal.contenido|striptags|truncatewords:50 }}</p>
@@ -538,7 +538,7 @@
     <div class="columnas-grid">
       {% for noticia in columnas %}
       <div class="columna-item">
-        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">{% if noticia.seccion %}<a href="/noticias/?seccion={{ noticia.seccion }}" style="color:inherit; text-decoration:none;">{{ noticia.get_seccion_display }}</a>{% else %}Noticia{% endif %}</p>
         <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
         <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
         <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|striptags|truncatewords:60 }}</p>
@@ -547,7 +547,7 @@
       {% endfor %}
       {% for noticia in mixtas %}
       <div class="columna-item">
-        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">Noticia</p>
+        <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">{% if noticia.seccion %}<a href="/noticias/?seccion={{ noticia.seccion }}" style="color:inherit; text-decoration:none;">{{ noticia.get_seccion_display }}</a>{% else %}Noticia{% endif %}</p>
         <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
         <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
         <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|striptags|truncatewords:60 }}</p>

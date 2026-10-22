@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_POST
-from .models import Noticia, Comentario, RegistroBelico, RankingFamilia
+from .models import Noticia, Comentario, RegistroBelico, RankingFamilia, SECCIONES
 from .middleware import esta_en_mantenimiento, activar_mantenimiento
 
 def staff_required(view_func):
@@ -105,6 +105,9 @@ def noticias_lista(request):
     noticias = Noticia.objects.all().order_by('-fecha')
     return render(request, 'newspaper/noticias_lista.html', {'noticias': noticias})
 
+def seccion_valida(valor):
+    return valor if valor in dict(SECCIONES) else ''
+
 @staff_required
 def noticia_nueva(request):
     if request.method == 'POST':
@@ -113,9 +116,10 @@ def noticia_nueva(request):
         modo = request.session.get('modo_publicacion', 'personal')
         autor = 'Chicago Daily News' if modo == 'oficial' else request.user.username
         imagen = request.FILES.get('imagen')
-        Noticia.objects.create(titulo=titulo, contenido=contenido, autor=autor, imagen=imagen)
+        seccion = seccion_valida(request.POST.get('seccion', ''))
+        Noticia.objects.create(titulo=titulo, contenido=contenido, autor=autor, imagen=imagen, seccion=seccion)
         return redirect('/panel/')
-    return render(request, 'newspaper/noticia_form.html')
+    return render(request, 'newspaper/noticia_form.html', {'secciones': SECCIONES})
 
 @staff_required
 def noticia_editar(request, id):
@@ -125,9 +129,10 @@ def noticia_editar(request, id):
         noticia.contenido = request.POST.get('contenido')
         if request.FILES.get('imagen'):
             noticia.imagen = request.FILES.get('imagen')
+        noticia.seccion = seccion_valida(request.POST.get('seccion', ''))
         noticia.save()
         return redirect('/panel/')
-    return render(request, 'newspaper/noticia_form.html', {'noticia': noticia})
+    return render(request, 'newspaper/noticia_form.html', {'noticia': noticia, 'secciones': SECCIONES})
 
 @staff_required
 @require_POST
@@ -190,12 +195,18 @@ def noticia_tendencia(request, id):
 
 def todas_noticias(request):
     noticias_todas = Noticia.objects.all().order_by('-fecha', '-id')
+    seccion = seccion_valida(request.GET.get('seccion', ''))
+    if seccion:
+        noticias_todas = noticias_todas.filter(seccion=seccion)
     paginator = Paginator(noticias_todas, 6)
     pagina = request.GET.get('pagina', 1)
     noticias = paginator.get_page(pagina)
     return render(request, 'newspaper/todas_noticias.html', {
         'user': request.user,
         'noticias': noticias,
+        'secciones': SECCIONES,
+        'seccion_actual': seccion,
+        'seccion_nombre': dict(SECCIONES).get(seccion, ''),
     })
 
 @csrf_exempt
