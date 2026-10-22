@@ -259,6 +259,100 @@
   }
   .anuncio-aliado .anuncio-boton:hover { background: #6d1414; }
 
+  /* CARTELES LATERALES (solo pantallas grandes) */
+  .carteles-laterales { display: none; }
+  @media (min-width: 1440px) and (min-height: 760px) {
+    .carteles-laterales {
+      display: flex;
+      flex-direction: column;
+      gap: 34px;
+      position: fixed;
+      top: 110px;
+      left: calc(50% + 450px + 48px);
+      width: 240px;
+      z-index: 5;
+    }
+    .carrusel { display: none; }
+  }
+  .cartel {
+    position: relative;
+    background:
+      radial-gradient(ellipse at center, rgba(255,250,235,0.6) 0%, rgba(0,0,0,0) 60%),
+      radial-gradient(ellipse at center, #f1e6cc 55%, #dccaa3 100%);
+    border: 1px solid #b8a47c;
+    padding: 10px;
+    box-shadow: 3px 6px 14px rgba(40,25,10,0.35);
+    text-align: center;
+    color: #1a1008;
+    transition: transform 0.2s ease;
+  }
+  .cartel:nth-child(1) { transform: rotate(-1.6deg); }
+  .cartel:nth-child(2) { transform: rotate(1.3deg); }
+  .cartel:hover { transform: rotate(0deg) scale(1.02); }
+  .cartel::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: calc(50% - 7px);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c94a4a, #6d1414 70%);
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.45);
+  }
+  .cartel-marco {
+    border: 3px double #1a1008;
+    padding: 16px 12px 18px;
+  }
+  .cartel-sup {
+    font-family: 'Playfair Display', serif;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #8b1a1a;
+  }
+  .cartel-orn {
+    font-size: 12px;
+    color: #8b1a1a;
+    letter-spacing: 0.5em;
+    margin: 6px 0;
+  }
+  .cartel-titulo {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 36px;
+    line-height: 1.05;
+    margin: 2px 0 8px;
+  }
+  .cartel-lema {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-top: 1px solid #1a1008;
+    border-bottom: 1px solid #1a1008;
+    padding: 5px 0;
+    margin-bottom: 10px;
+  }
+  .cartel-texto {
+    font-size: 13px;
+    line-height: 1.5;
+    font-style: italic;
+    color: #2a1a0a;
+    margin-bottom: 14px;
+  }
+  .cartel-boton {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #8b1a1a;
+    color: #f5f0e8;
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .cartel-boton:hover { background: #1a1008; }
+
   /* TENDENCIA */
   .recuadro-escandalo {
     background: #8b1a1a;
@@ -523,6 +617,30 @@
       reiniciar();
     })();
     </script>
+
+    <!-- CARTELES LATERALES (pantallas grandes) -->
+    <aside class="carteles-laterales" aria-label="Páginas recomendadas">
+      <div class="cartel">
+        <div class="cartel-marco">
+          <div class="cartel-sup">Lectura recomendada</div>
+          <div class="cartel-orn">✦ ✦ ✦</div>
+          <div class="cartel-titulo">US Times</div>
+          <div class="cartel-lema">El periódico de todo el mundillo</div>
+          <p class="cartel-texto">Noticias de las familias, la historia del mundillo y sus registros.<br>Dirige: Don Alex Capone.</p>
+          <a href="https://ustimes.jimdofree.com/" target="_blank" rel="noopener" class="cartel-boton">Leer US Times →</a>
+        </div>
+      </div>
+      <div class="cartel">
+        <div class="cartel-marco">
+          <div class="cartel-sup">Registro oficial</div>
+          <div class="cartel-orn">✦ ✦ ✦</div>
+          <div class="cartel-titulo">Registro de Famiglias</div>
+          <div class="cartel-lema">Voluntario e independiente</div>
+          <p class="cartel-texto">Famiglias, bares, organizaciones criminales y más.<br>¿Registras la tuya? Escríbele a Don Alex Capone.</p>
+          <a href="https://www.regfamiglias.com/" target="_blank" rel="noopener" class="cartel-boton">Ver registros →</a>
+        </div>
+      </div>
+    </aside>
 
     <!-- TENDENCIA -->
     {% if tendencia %}
