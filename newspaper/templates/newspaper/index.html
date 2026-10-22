@@ -149,17 +149,31 @@
   }
 
   /* ANUNCIO US TIMES */
-  .anuncio-aliado {
+  .anuncios-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
     margin: 1.5rem 0 1rem;
+  }
+  @media (max-width: 700px) {
+    .anuncios-grid { grid-template-columns: 1fr; }
+  }
+  .anuncio-aliado {
     border: 3px double #1a1008;
     padding: 6px;
+    display: flex;
   }
   .anuncio-aliado-interior {
     border: 1px solid #1a1008;
     background: #ede8dc;
     padding: 18px 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
+  .anuncio-aliado .anuncio-boton { margin-top: auto; }
   .anuncio-aliado .anuncio-etiqueta {
     font-family: 'Playfair Display', serif;
     font-size: 10px;
@@ -169,7 +183,7 @@
   }
   .anuncio-aliado .anuncio-nombre {
     font-family: 'UnifrakturMaguntia', cursive;
-    font-size: 40px;
+    font-size: 34px;
     line-height: 1.1;
     color: #0d0700;
     margin: 6px 0 4px;
@@ -416,14 +430,25 @@
     </div>
     {% endif %}
 
-    <!-- ANUNCIO: US TIMES -->
-    <div class="anuncio-aliado">
-      <div class="anuncio-aliado-interior">
-        <div class="anuncio-etiqueta">✦ Lectura recomendada ✦</div>
-        <div class="anuncio-nombre">US Times</div>
-        <div class="anuncio-lema">El periódico de todo el mundillo</div>
-        <p class="anuncio-texto">Noticias de las familias, la historia del mundillo y sus registros. Bajo la dirección de Don Alex Capone.</p>
-        <a href="https://ustimes.jimdofree.com/" target="_blank" rel="noopener" class="anuncio-boton">Leer US Times →</a>
+    <!-- ANUNCIOS: PÁGINAS RECOMENDADAS -->
+    <div class="anuncios-grid">
+      <div class="anuncio-aliado">
+        <div class="anuncio-aliado-interior">
+          <div class="anuncio-etiqueta">✦ Lectura recomendada ✦</div>
+          <div class="anuncio-nombre">US Times</div>
+          <div class="anuncio-lema">El periódico de todo el mundillo</div>
+          <p class="anuncio-texto">Noticias de las familias, la historia del mundillo y sus registros. Bajo la dirección de Don Alex Capone.</p>
+          <a href="https://ustimes.jimdofree.com/" target="_blank" rel="noopener" class="anuncio-boton">Leer US Times →</a>
+        </div>
+      </div>
+      <div class="anuncio-aliado">
+        <div class="anuncio-aliado-interior">
+          <div class="anuncio-etiqueta">✦ Registro oficial ✦</div>
+          <div class="anuncio-nombre">Registro de Famiglias</div>
+          <div class="anuncio-lema">Ente voluntario e independiente</div>
+          <p class="anuncio-texto">Abierto a registrar nuevas famiglias, bares, organizaciones criminales y más. ¿Quieres registrar la tuya? Escríbele a Don Alex Capone.</p>
+          <a href="https://www.regfamiglias.com/" target="_blank" rel="noopener" class="anuncio-boton">Ver registros →</a>
+        </div>
       </div>
     </div>
 
