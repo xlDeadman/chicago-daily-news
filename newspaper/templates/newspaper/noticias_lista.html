@@ -29,11 +29,12 @@
   .badge-principal { color: #8b1a1a; border-color: #8b1a1a; }
   .badge-secundaria { color: #555; border-color: #555; }
   .badge-mixta { color: #1a4a1a; border-color: #1a4a1a; }
-  .acciones a { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; margin-right: 10px; }
+  .acciones a, .acciones button { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; margin-right: 10px; }
   .editar { color: #1a1a8b; }
   .eliminar { color: #8b1a1a; }
   .vacio { text-align: center; padding: 3rem; color: #888; font-style: italic; }
 </style>
+<style>:where(.form-accion){display:inline;margin:0}:where(.form-accion) button{background:none;border:none;padding:0;margin:0;cursor:pointer;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;}</style>
 </head>
 <body>
 <div class="panel">
@@ -70,7 +71,7 @@
       <td>{{ noticia.fecha }}</td>
       <td class="acciones">
         <a href="/panel/noticias/editar/{{ noticia.id }}/" class="editar">Editar</a>
-        <a href="/panel/noticias/eliminar/{{ noticia.id }}/" class="eliminar" onclick="return confirm('¿Eliminar esta noticia?')">Eliminar</a>
+        <form method="post" action="/panel/noticias/eliminar/{{ noticia.id }}/" class="form-accion" onsubmit="return confirm('¿Eliminar esta noticia?')">{% csrf_token %}<button type="submit" class="eliminar">Eliminar</button></form>
       </td>
     </tr>
     {% endfor %}

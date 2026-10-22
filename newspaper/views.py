@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
-from .models import Noticia, Comentario, RegistroBelico, RankingFamilia, Familia
+from django.views.decorators.http import require_POST
+from .models import Noticia, Comentario, RegistroBelico, RankingFamilia
 from .middleware import esta_en_mantenimiento, activar_mantenimiento
 
 def staff_required(view_func):
@@ -129,6 +130,7 @@ def noticia_editar(request, id):
     return render(request, 'newspaper/noticia_form.html', {'noticia': noticia})
 
 @staff_required
+@require_POST
 def noticia_eliminar(request, id):
     noticia = Noticia.objects.get(id=id)
     noticia.delete()
@@ -155,12 +157,14 @@ def usuarios_lista(request):
     return render(request, 'newspaper/usuarios.html', {'usuarios': usuarios})
 
 @staff_required
+@require_POST
 def usuario_eliminar(request, id):
     usuario = User.objects.get(id=id)
     usuario.delete()
     return redirect('/panel/')
 
 @staff_required
+@require_POST
 def usuario_deshabilitar(request, id):
     usuario = User.objects.get(id=id)
     usuario.is_active = not usuario.is_active
@@ -168,6 +172,7 @@ def usuario_deshabilitar(request, id):
     return redirect('/panel/')
 
 @staff_required
+@require_POST
 def usuario_permisos(request, id):
     usuario = User.objects.get(id=id)
     usuario.is_staff = not usuario.is_staff
@@ -175,6 +180,7 @@ def usuario_permisos(request, id):
     return redirect('/panel/')
 
 @staff_required
+@require_POST
 def noticia_tendencia(request, id):
     Noticia.objects.all().update(tendencia=False)
     noticia = Noticia.objects.get(id=id)
@@ -205,6 +211,7 @@ def comentarios_lista(request):
     return render(request, 'newspaper/comentarios.html', {'comentarios': comentarios})
 
 @staff_required
+@require_POST
 def comentario_eliminar(request, id):
     comentario = Comentario.objects.get(id=id)
     comentario.delete()
@@ -242,6 +249,7 @@ def registro_nuevo(request):
     return render(request, 'newspaper/registro_form.html')
 
 @staff_required
+@require_POST
 def registro_eliminar(request, id):
     registro = RegistroBelico.objects.get(id=id)
     registro.delete()
@@ -257,30 +265,8 @@ def ranking_nuevo(request):
     return render(request, 'newspaper/ranking_form.html')
 
 @staff_required
+@require_POST
 def ranking_eliminar(request, id):
     ranking = RankingFamilia.objects.get(id=id)
     ranking.delete()
-    return redirect('/panel/')
-
-def familias_activas(request):
-    familias = Familia.objects.all().order_by('nombre')
-    return render(request, 'newspaper/familias_activas.html', {
-        'user': request.user,
-        'familias': familias,
-    })
-
-@staff_required
-def familia_nueva(request):
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        don = request.POST.get('don')
-        estado = request.POST.get('estado') == 'on'
-        Familia.objects.create(nombre=nombre, don=don, estado=estado)
-        return redirect('/panel/')
-    return render(request, 'newspaper/familia_form.html')
-
-@staff_required
-def familia_eliminar(request, id):
-    familia = Familia.objects.get(id=id)
-    familia.delete()
     return redirect('/panel/')

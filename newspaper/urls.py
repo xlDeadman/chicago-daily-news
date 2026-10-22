@@ -27,7 +27,4 @@ urlpatterns = [
     path('panel/registros/eliminar/<int:id>/', views.registro_eliminar, name='registro_eliminar'),
     path('panel/ranking/nuevo/', views.ranking_nuevo, name='ranking_nuevo'),
     path('panel/ranking/eliminar/<int:id>/', views.ranking_eliminar, name='ranking_eliminar'),
-    path('familias-activas/', views.familias_activas, name='familias_activas'),
-    path('panel/familias/nueva/', views.familia_nueva, name='familia_nueva'),
-    path('panel/familias/eliminar/<int:id>/', views.familia_eliminar, name='familia_eliminar'),
 ]

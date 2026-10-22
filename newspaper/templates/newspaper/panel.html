@@ -3,6 +3,7 @@
 {% block title %}Panel — Chicago Daily News{% endblock %}
 
 {% block extra_css %}
+:where(.form-accion){display:inline;margin:0}:where(.form-accion) button{background:none;border:none;padding:0;margin:0;cursor:pointer;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;}
 .panel-header {
   border-bottom: 2px solid #1a1008;
   padding-bottom: 1rem;
@@ -115,7 +116,7 @@
 .item-titulo { font-family: 'Playfair Display', serif; font-weight: 700; color: #0d0700; font-size: 13px; }
 .item-meta { font-size: 11px; color: #888; font-family: Georgia, serif; margin-top: 2px; }
 .item-acciones { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; min-width: 120px; }
-.item-acciones a { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+.item-acciones a, .item-acciones button { font-family: 'Playfair Display', serif; font-size: 11px; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
 .btn-editar { color: #1a1a8b; }
 .btn-eliminar { color: #8b1a1a; }
 .btn-tendencia { color: #8b6914; }
@@ -207,8 +208,8 @@
           </div>
           <div class="item-acciones">
             <a href="/panel/noticias/editar/{{ noticia.id }}/" class="btn-editar">Editar</a>
-            <a href="/panel/noticias/tendencia/{{ noticia.id }}/" class="btn-tendencia">{% if noticia.tendencia %}★ Tendencia{% else %}Tendencia{% endif %}</a>
-            <a href="/panel/noticias/eliminar/{{ noticia.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar esta noticia?')">Eliminar</a>
+            <form method="post" action="/panel/noticias/tendencia/{{ noticia.id }}/" class="form-accion">{% csrf_token %}<button type="submit" class="btn-tendencia">{% if noticia.tendencia %}★ Tendencia{% else %}Tendencia{% endif %}</button></form>
+            <form method="post" action="/panel/noticias/eliminar/{{ noticia.id }}/" class="form-accion" onsubmit="return confirm('¿Eliminar esta noticia?')">{% csrf_token %}<button type="submit" class="btn-eliminar">Eliminar</button></form>
           </div>
         </div>
         {% endfor %}
@@ -241,9 +242,9 @@
             </div>
           </div>
           <div class="item-acciones">
-            <a href="/panel/usuarios/deshabilitar/{{ usuario.id }}/" class="btn-editar">{% if usuario.is_active %}Deshabilitar{% else %}Habilitar{% endif %}</a>
-            <a href="/panel/usuarios/permisos/{{ usuario.id }}/" style="color:#1a1a8b; font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; text-decoration:none;">{% if usuario.is_staff %}Quitar Panel{% else %}Dar Panel{% endif %}</a>
-            <a href="/panel/usuarios/eliminar/{{ usuario.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar usuario {{ usuario.username }}?')">Eliminar</a>
+            <form method="post" action="/panel/usuarios/deshabilitar/{{ usuario.id }}/" class="form-accion">{% csrf_token %}<button type="submit" class="btn-editar">{% if usuario.is_active %}Deshabilitar{% else %}Habilitar{% endif %}</button></form>
+            <form method="post" action="/panel/usuarios/permisos/{{ usuario.id }}/" class="form-accion">{% csrf_token %}<button type="submit" style="color:#1a1a8b; font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; text-decoration:none;">{% if usuario.is_staff %}Quitar Panel{% else %}Dar Panel{% endif %}</button></form>
+            <form method="post" action="/panel/usuarios/eliminar/{{ usuario.id }}/" class="form-accion" onsubmit="return confirm('¿Eliminar usuario {{ usuario.username }}?')">{% csrf_token %}<button type="submit" class="btn-eliminar">Eliminar</button></form>
           </div>
         </div>
         {% endfor %}
@@ -272,7 +273,7 @@
             <div class="item-meta">{{ comentario.contenido|truncatewords:15 }} · {{ comentario.fecha|date:"d/m/Y H:i" }}</div>
           </div>
           <div class="item-acciones">
-            <a href="/panel/comentarios/eliminar/{{ comentario.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar este comentario?')">Eliminar</a>
+            <form method="post" action="/panel/comentarios/eliminar/{{ comentario.id }}/" class="form-accion" onsubmit="return confirm('¿Eliminar este comentario?')">{% csrf_token %}<button type="submit" class="btn-eliminar">Eliminar</button></form>
           </div>
         </div>
         {% endfor %}
@@ -311,7 +312,7 @@
               <td>{{ r.familia2 }}</td>
               <td class="ganador">{{ r.ganador }}</td>
               <td>{{ r.fecha }}</td>
-              <td><a href="/panel/registros/eliminar/{{ r.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar este registro?')">Eliminar</a></td>
+              <td><form method="post" action="/panel/registros/eliminar/{{ r.id }}/" class="form-accion" onsubmit="return confirm('¿Eliminar este registro?')">{% csrf_token %}<button type="submit" class="btn-eliminar">Eliminar</button></form></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -340,7 +341,7 @@
             <tr>
               <td><strong>{{ r.familia }}</strong></td>
               <td>{{ r.pettadas }}</td>
-              <td><a href="/panel/ranking/eliminar/{{ r.id }}/" class="btn-eliminar" onclick="return confirm('¿Eliminar?')">Eliminar</a></td>
+              <td><form method="post" action="/panel/ranking/eliminar/{{ r.id }}/" class="form-accion" onsubmit="return confirm('¿Eliminar?')">{% csrf_token %}<button type="submit" class="btn-eliminar">Eliminar</button></form></td>
             </tr>
             {% endfor %}
           </tbody>

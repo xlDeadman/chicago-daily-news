@@ -4,9 +4,12 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-7auq@&e()#gg8@(y0)r(b3xku*a+b3gf#tb0y*ajp(dygwj6ez'
+# La clave secreta se toma de la variable SECRET_KEY de Railway.
+# La de abajo es solo un respaldo temporal: ya es pública, hay que reemplazarla.
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-7auq@&e()#gg8@(y0)r(b3xku*a+b3gf#tb0y*ajp(dygwj6ez')
 
-DEBUG = True
+# El modo de pruebas solo se prende si en Railway existe la variable DEBUG=True.
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
