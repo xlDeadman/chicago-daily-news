@@ -148,6 +148,64 @@
     padding: 10px 0;
   }
 
+  /* ANUNCIO US TIMES */
+  .anuncio-aliado {
+    margin: 1.5rem 0 1rem;
+    border: 3px double #1a1008;
+    padding: 6px;
+  }
+  .anuncio-aliado-interior {
+    border: 1px solid #1a1008;
+    background: #ede8dc;
+    padding: 18px 20px;
+    text-align: center;
+  }
+  .anuncio-aliado .anuncio-etiqueta {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #8b1a1a;
+  }
+  .anuncio-aliado .anuncio-nombre {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 40px;
+    line-height: 1.1;
+    color: #0d0700;
+    margin: 6px 0 4px;
+  }
+  .anuncio-aliado .anuncio-lema {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #2a1a0a;
+    border-top: 1px solid #c8b89a;
+    border-bottom: 1px solid #c8b89a;
+    display: inline-block;
+    padding: 4px 12px;
+  }
+  .anuncio-aliado .anuncio-texto {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #2a1a0a;
+    max-width: 520px;
+    margin: 10px auto 12px;
+    font-style: italic;
+  }
+  .anuncio-aliado .anuncio-boton {
+    display: inline-block;
+    padding: 8px 20px;
+    background: #8b1a1a;
+    color: #f5f0e8;
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .anuncio-aliado .anuncio-boton:hover { background: #6d1414; }
+
   /* TENDENCIA */
   .recuadro-escandalo {
     background: #8b1a1a;
@@ -357,6 +415,17 @@
       {% endfor %}
     </div>
     {% endif %}
+
+    <!-- ANUNCIO: US TIMES -->
+    <div class="anuncio-aliado">
+      <div class="anuncio-aliado-interior">
+        <div class="anuncio-etiqueta">✦ Lectura recomendada ✦</div>
+        <div class="anuncio-nombre">US Times</div>
+        <div class="anuncio-lema">El periódico de todo el mundillo</div>
+        <p class="anuncio-texto">Noticias de las familias, la historia del mundillo y sus registros. Bajo la dirección de Don Alex Capone.</p>
+        <a href="https://ustimes.jimdofree.com/" target="_blank" rel="noopener" class="anuncio-boton">Leer US Times →</a>
+      </div>
+    </div>
 
     <!-- TENDENCIA -->
     {% if tendencia %}
