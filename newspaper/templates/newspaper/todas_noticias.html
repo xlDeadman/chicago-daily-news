@@ -1,4 +1,5 @@
 {% extends 'newspaper/base.html' %}
+{% load periodico %}
 
 {% block title %}Noticias — Chicago Daily News{% endblock %}
 
@@ -139,7 +140,7 @@
       <a href="/noticia/{{ noticia.id }}/" class="leer">Leer más →</a>
     </div>
     <div class="noticia-card-right">
-      <p>{{ noticia.contenido|striptags|truncatewords:40 }}</p>
+      <p>{{ noticia.contenido|texto_plano|truncatewords:40 }}</p>
     </div>
   </div>
   {% endfor %}

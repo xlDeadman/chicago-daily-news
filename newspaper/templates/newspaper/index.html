@@ -1,3 +1,4 @@
+{% load periodico %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
@@ -548,7 +549,7 @@
       <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:#8b1a1a; margin-bottom:0.5rem;">Noticia Principal{% if principal.seccion %} · <a href="/noticias/?seccion={{ principal.seccion }}" style="color:inherit; text-decoration:none;">{{ principal.get_seccion_display }}</a>{% endif %}</p>
       <h1 style="font-family:'Playfair Display',serif; font-size:44px; font-weight:900; line-height:1.05; color:#0d0700; margin-bottom:0.3rem;">{{ principal.titulo }}</h1>
       <p style="font-size:12px; color:#666; font-family:Georgia,serif; margin:0.3rem 0 0.8rem;">Por {{ principal.autor }} · {{ principal.fecha }}</p>
-      <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ principal.contenido|striptags|truncatewords:50 }}</p>
+      <p style="font-size:12.5px; line-height:1.6; color:#2a1a0a; text-align:justify;">{{ principal.contenido|texto_plano|truncatewords:50 }}</p>
       <a href="/noticia/{{ principal.id }}" style="display:inline-block; margin-top:1rem; padding:8px 20px; background:#1a1008; color:#f5f0e8; font-family:'Playfair Display',serif; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none;">Leer Noticia Completa →</a>
     </div>
     {% endif %}
@@ -561,7 +562,7 @@
         <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">{% if noticia.seccion %}<a href="/noticias/?seccion={{ noticia.seccion }}" style="color:inherit; text-decoration:none;">{{ noticia.get_seccion_display }}</a>{% else %}Noticia{% endif %}</p>
         <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
         <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
-        <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|striptags|truncatewords:60 }}</p>
+        <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|texto_plano|truncatewords:60 }}</p>
         <a href="/noticia/{{ noticia.id }}/" style="font-family:'Playfair Display',serif; font-size:11px; color:#8b1a1a; text-decoration:none; display:inline-block; margin-top:8px;">Leer más →</a>
       </div>
       {% endfor %}
@@ -570,7 +571,7 @@
         <p style="font-family:'Playfair Display',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#8b1a1a; margin-bottom:4px;">{% if noticia.seccion %}<a href="/noticias/?seccion={{ noticia.seccion }}" style="color:inherit; text-decoration:none;">{{ noticia.get_seccion_display }}</a>{% else %}Noticia{% endif %}</p>
         <h2 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#0d0700; margin-bottom:4px; line-height:1.2;">{{ noticia.titulo }}</h2>
         <p style="font-size:11px; color:#888; font-family:Georgia,serif; margin-bottom:8px;">Por {{ noticia.autor }} · {{ noticia.fecha }}</p>
-        <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|striptags|truncatewords:60 }}</p>
+        <p class="resumen" style="font-size:12.5px; line-height:1.6; color:#2a1a0a;">{{ noticia.contenido|texto_plano|truncatewords:60 }}</p>
         <a href="/noticia/{{ noticia.id }}/" style="font-family:'Playfair Display',serif; font-size:11px; color:#8b1a1a; text-decoration:none; display:inline-block; margin-top:8px;">Leer más →</a>
       </div>
       {% endfor %}
@@ -660,7 +661,7 @@
     {% if tendencia %}
     <div class="recuadro-escandalo">
       <strong>¡ TENDENCIA !</strong>
-      <p>{{ tendencia.titulo }} · {{ tendencia.contenido|striptags|truncatewords:20 }} · <a href="/noticia/{{ tendencia.id }}/" style="color:#f5f0e8; text-decoration:underline;">Leer más →</a></p>
+      <p>{{ tendencia.titulo }} · {{ tendencia.contenido|texto_plano|truncatewords:20 }} · <a href="/noticia/{{ tendencia.id }}/" style="color:#f5f0e8; text-decoration:underline;">Leer más →</a></p>
     </div>
     {% endif %}
 
