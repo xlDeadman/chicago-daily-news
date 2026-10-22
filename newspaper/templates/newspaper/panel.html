@@ -88,6 +88,10 @@
 .panel-btn.btn-new { background: #8b1a1a; color: #f5f0e8; border-color: #8b1a1a; }
 .panel-btn.btn-new:hover { background: #6d1414; }
 .panel-btn.btn-sep { border-top: 2px solid #c8b89a; margin-top: 8px; padding-top: 12px; }
+.form-mant { margin: 0; }
+.form-mant button { width: 100%; text-align: left; cursor: pointer; }
+.btn-mant-off { background: #1a5c2e !important; color: #f5f0e8 !important; border-color: #1a5c2e !important; }
+.aviso-mant { background: #8b1a1a; color: #f5f0e8; padding: 10px 16px; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; }
 .panel-content {
   border: 1px solid #c8b89a;
   background: #f5f0e8;
@@ -144,6 +148,10 @@
 </div>
 
 <!-- ESTADISTICAS -->
+{% if mantenimiento %}
+<div class="aviso-mant">⚠ La página está en mantenimiento: los visitantes no pueden ver el periódico</div>
+{% endif %}
+
 <div class="stats-row">
   <div class="stat-card">
     <div class="stat-numero">{{ total_noticias }}</div>
@@ -173,6 +181,14 @@
     <a href="/panel/ranking/nuevo/" class="panel-btn btn-new">+ Ranking Familia</a>
     <a class="panel-btn" id="btn-ver-ranking">Ver Ranking</a>
     <a href="/" class="panel-btn" style="margin-top:8px;">Ver Periódico</a>
+    <form method="post" action="/panel/mantenimiento/" class="form-mant">
+      {% csrf_token %}
+      {% if mantenimiento %}
+      <button type="submit" class="panel-btn btn-mant-off" onclick="return confirm('¿Quitar el mantenimiento y volver a abrir la página?')">✔ Quitar mantenimiento</button>
+      {% else %}
+      <button type="submit" class="panel-btn btn-new btn-sep" onclick="return confirm('¿Poner la página en mantenimiento? Los visitantes no podrán verla.')">⚠ Activar mantenimiento</button>
+      {% endif %}
+    </form>
   </div>
 
   <!-- CONTENIDO -->

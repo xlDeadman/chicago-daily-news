@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="icon" type="image/x-icon" href="{% static 'newspaper/favicon.ico' %}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>En mantenimiento | Chicago Daily News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #d9d0bf; font-family: 'IM Fell English', Georgia, serif; color: #1a1008; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+.hoja { background: #f5f0e8; max-width: 640px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,0.15); text-align: center; }
+.cabecera { background: #ede8dc; padding: 28px 24px 16px; }
+.cabecera h1 { font-family: 'UnifrakturMaguntia', cursive; font-weight: 400; font-size: clamp(34px, 9vw, 56px); line-height: 1; }
+.cabecera .lema { font-family: 'Playfair Display', serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #666; margin-top: 10px; padding: 6px 0; border-top: 1px solid #999; border-bottom: 1px solid #999; }
+.linea-roja { height: 5px; background: #8b1a1a; border-top: 2px solid #1a1008; }
+.cuerpo { padding: 36px 28px 32px; }
+.etiqueta { font-family: 'Playfair Display', serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #8b1a1a; margin-bottom: 10px; }
+.cuerpo h2 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(26px, 6vw, 38px); line-height: 1.1; margin-bottom: 18px; }
+.cuerpo p { font-size: 15px; line-height: 1.7; color: #2a1a0a; max-width: 460px; margin: 0 auto 12px; }
+.firma { font-style: italic; color: #666 !important; margin-top: 20px !important; }
+.btn-x { display: inline-block; margin-top: 22px; padding: 10px 22px; background: #1a1008; color: #f5f0e8; font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; }
+.pie { border-top: 1px solid #c8b89a; padding: 14px 24px; font-family: 'Playfair Display', serif; font-size: 11px; color: #666; }
+.staff { margin-top: 10px; }
+.staff summary { cursor: pointer; font-family: 'Playfair Display', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #999; list-style: none; }
+.staff form { display: flex; flex-direction: column; gap: 8px; max-width: 260px; margin: 12px auto 0; }
+.staff input { padding: 8px 10px; border: 1px solid #c8b89a; background: #ede8dc; font-family: inherit; font-size: 14px; }
+.staff button { padding: 8px; background: #8b1a1a; color: #f5f0e8; border: none; font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; }
+</style>
+</head>
+<body>
+  <div class="hoja">
+    <div class="cabecera">
+      <h1>Chicago Daily News</h1>
+      <div class="lema">El diario oficial de Alcapone Family</div>
+    </div>
+    <div class="linea-roja"></div>
+    <div class="cuerpo">
+      <div class="etiqueta">Edición suspendida</div>
+      <h2>Las prensas están detenidas</h2>
+      <p>Estamos trabajando en la redacción para traerte una mejor edición del periódico de la familia.</p>
+      <p>Vuelve en un rato. Las noticias de Alcapone te estarán esperando.</p>
+      <p class="firma">— La redacción del Chicago Daily News</p>
+      <a href="https://x.com/TheAlCaFamily" target="_blank" rel="noopener" class="btn-x">Síguenos en X @TheAlCaFamily →</a>
+    </div>
+    <div class="pie">
+      Chicago Daily News · Est. 2025
+      <details class="staff">
+        <summary>Acceso staff</summary>
+        <form method="post" action="/login/">
+          <input type="text" name="usuario_habbo" placeholder="Usuario" required>
+          <input type="password" name="contrasena" placeholder="Contraseña" required>
+          <button type="submit">Entrar</button>
+        </form>
+      </details>
+    </div>
+  </div>
+</body>
+</html>

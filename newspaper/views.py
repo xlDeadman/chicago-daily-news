@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from .models import Noticia, Comentario, RegistroBelico, RankingFamilia, Familia
+from .middleware import esta_en_mantenimiento, activar_mantenimiento
 
 def staff_required(view_func):
     def wrapper(request, *args, **kwargs):
@@ -85,7 +86,14 @@ def panel_view(request):
         'comentarios': comentarios,
         'registros': registros,
         'ranking': ranking,
+        'mantenimiento': esta_en_mantenimiento(),
     })
+
+@staff_required
+def mantenimiento_toggle(request):
+    if request.method == 'POST':
+        activar_mantenimiento(not esta_en_mantenimiento())
+    return redirect('/panel/')
 
 def logout_view(request):
     logout(request)

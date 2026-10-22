@@ -29,6 +29,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'newspaper.middleware.MantenimientoMiddleware',
 ]
 
 ROOT_URLCONF = 'chicago_daily_news.urls'
