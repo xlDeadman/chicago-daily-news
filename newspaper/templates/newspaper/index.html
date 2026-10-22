@@ -78,6 +78,22 @@
     padding: 3px 0;
     margin-bottom: 0.5rem;
   }
+  .edition-line-portada {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 2px;
+  }
+  .edition-line-portada .ed-fecha,
+  .edition-line-portada .ed-numero {
+    color: #1a1008;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  @media (max-width: 700px) {
+    .edition-line-portada { flex-direction: column; gap: 2px; }
+  }
 
   /* NAV */
   .nav-bar {
@@ -497,7 +513,11 @@
     <div style="border-top:1px solid #999; margin-bottom:0.4rem;"></div>
     <div class="nombre-periodico">Chicago Daily News</div>
     <div class="subtitulo-cabecera">"Todo el drama que cabe en un pixel"</div>
-    <div class="edition-line">Habbo City Edition — El diario oficial de Alcapone Family</div>
+    <div class="edition-line edition-line-portada">
+      <span class="ed-fecha">{{ fecha_hoy }}</span>
+      <span class="ed-centro">Habbo City Edition — El diario oficial de Alcapone Family</span>
+      <span class="ed-numero">Edición N.º {{ edicion }}</span>
+    </div>
     <div class="nav-bar">
       <span><a href="/">INICIO</a></span>
       <span><a href="/noticias/">NOTICIAS</a></span>

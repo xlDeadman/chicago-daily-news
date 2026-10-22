@@ -1,3 +1,5 @@
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -14,6 +16,14 @@ def staff_required(view_func):
         return view_func(request, *args, **kwargs)
     return wrapper
 
+DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+         'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+
+def fecha_de_hoy():
+    hoy = datetime.now(ZoneInfo('America/Mexico_City'))
+    return f"{DIAS[hoy.weekday()]} {hoy.day} de {MESES[hoy.month - 1]} de {hoy.year}"
+
 def home(request):
     noticias = list(Noticia.objects.all().order_by('-fecha', '-id'))
     principal = noticias[0] if len(noticias) > 0 else None
@@ -26,6 +36,8 @@ def home(request):
         'columnas': columnas,
         'mixtas': mixtas,
         'tendencia': tendencia,
+        'fecha_hoy': fecha_de_hoy(),
+        'edicion': len(noticias),
     })
 
 @csrf_exempt
